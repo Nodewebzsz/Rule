@@ -1,0 +1,4 @@
+.DS_Store   # macOS metadata file
+.idea/     # PyCharm IDE files
+.vscode/   # Visual Studio Code IDE files
+.gitigonre # Git ignore file
