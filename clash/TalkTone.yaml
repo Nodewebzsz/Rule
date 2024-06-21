@@ -1,5 +1,10 @@
+# NAME: Talktone
+# AUTHOR: blackmatrix7
+# REPO: https://github.com/blackmatrix7/ios_rule_script
+# UPDATED: 2024-04-29 13:35:33
+# DOMAIN: 13
+# TOTAL: 13
 payload:
-# talkatone
   DOMAIN-SUFFIX,mobilefuse.com
   DOMAIN-SUFFIX,inmobi.com
   DOMAIN-SUFFIX,crashlytics.com
