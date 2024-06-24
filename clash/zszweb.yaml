@@ -1,0 +1,1334 @@
+---
+port: 7890
+socks-port: 7891
+allow-lan: true
+mode: rule
+log-level: info
+external-controller: 0.0.0.0:9090
+proxies:
+- name: "[VLESS] \U0001F1EB\U0001F1F7 oracle-france-ms-arm-vless-ws-tls"
+  type: vless
+  server: cdn.evpn.us.kg
+  port: 8443
+  uuid: 2614b58a-5306-4e23-c039-3ce0fc994536
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle-france-ms-arm.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle-france-ms-arm.zszweb.pp.ua
+  tfo: false
+- name: "[VMess] \U0001F1EB\U0001F1F7 oracle-france-ms-arm-vmess-ws-tls"
+  type: vmess
+  server: cdn.evpn.us.kg
+  port: 2096
+  uuid: b1074d6c-4292-4afd-be38-f018d9e13175
+  alterId: 0
+  cipher: auto
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle-france-ms-arm.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle-france-ms-arm.zszweb.pp.ua
+  tfo: false
+- name: "[VLESS] \U0001F1EF\U0001F1F5 aws-lgs-jp-vless-ws-tls"
+  type: vless
+  server: 104.18.7.218
+  port: 8443
+  uuid: e6eb2a4f-756d-4d0e-ffec-9b654a2a7ead
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: aws-lgs-jp.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: aws-lgs-jp.zszweb.pp.ua
+  tfo: false
+- name: "[VMess] \U0001F1EF\U0001F1F5 aws-lgs-jp-vmess-ws-tls"
+  type: vmess
+  server: 104.18.7.218
+  port: 2096
+  uuid: 8d6d8265-2aab-45c8-8d6c-4d775ad00e79
+  alterId: 0
+  cipher: auto
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: aws-lgs-jp.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: aws-lgs-jp.zszweb.pp.ua
+  tfo: false
+- name: "[VLESS] \U0001F1EF\U0001F1F5 oracle-jp-tokyo-trial-vless-ws-tls"
+  type: vless
+  server: 104.18.7.218
+  port: 8443
+  uuid: e032e502-b41d-4e68-a2fb-8f2ea2aa0cb0
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle-jp-tokyo-trial.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle-jp-tokyo-trial.zszweb.pp.ua
+  tfo: false
+- name: "[VMess] \U0001F1EF\U0001F1F5 oracle-jp-tokyo-trial-vmess-ws-tls"
+  type: vmess
+  server: 104.18.7.218
+  port: 2096
+  uuid: d278dc23-de53-4ca8-98e8-be2fff1ec18f
+  alterId: 0
+  cipher: auto
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle-jp-tokyo-trial.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle-jp-tokyo-trial.zszweb.pp.ua
+  tfo: false
+- name: "[VLESS] \U0001F1EF\U0001F1F5 oracle1-jp-tokyo-amd-vless-ws-tls"
+  type: vless
+  server: 104.18.7.218
+  port: 8443
+  uuid: bb3e893a-f441-4f73-bd70-fe97f3886977
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle1-jp-tokyo-amd.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle1-jp-tokyo-amd.zszweb.pp.ua
+  tfo: false
+- name: "[VMess] \U0001F1EF\U0001F1F5 oracle1-jp-tokyo-amd-vmess-ws-tls"
+  type: vmess
+  server: 104.18.7.218
+  port: 2096
+  uuid: cc2b940c-bd14-4524-b137-9cc43ecacf0a
+  alterId: 0
+  cipher: auto
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle1-jp-tokyo-amd.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle1-jp-tokyo-amd.zszweb.pp.ua
+  tfo: false
+- name: "[VLESS] \U0001F1EF\U0001F1F5 oracle2-jp-tokyo-amd-vless-ws-tls"
+  type: vless
+  server: 104.18.7.218
+  port: 8443
+  uuid: 67300110-1027-474e-a0c7-40cad200cfcc
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle2-jp-tokyo-amd.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle2-jp-tokyo-amd.zszweb.pp.ua
+  tfo: false
+- name: "[VMess] \U0001F1EF\U0001F1F5 oracle2-jp-tokyo-amd-vmess-ws-tls"
+  type: vmess
+  server: 104.18.7.218
+  port: 2096
+  uuid: 715f79f4-d54f-4289-c13d-dc5b3a81167a
+  alterId: 0
+  cipher: auto
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle2-jp-tokyo-amd.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle2-jp-tokyo-amd.zszweb.pp.ua
+  tfo: false
+- name: "[VLESS] \U0001F1F0\U0001F1F7 aws-lgs-kr-vless-ws-tls"
+  type: vless
+  server: 104.18.7.218
+  port: 8443
+  uuid: abb81590-fa59-400b-abe7-623d917326d4
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: aws-lgs-kr.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: aws-lgs-kr.zszweb.pp.ua
+  tfo: false
+- name: "[VMess] \U0001F1F0\U0001F1F7 aws-lgs-kr-vmess-ws-tls"
+  type: vmess
+  server: 104.18.7.218
+  port: 2096
+  uuid: f931dbd9-3dca-4b58-ccef-8c45a7c51478
+  alterId: 0
+  cipher: auto
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: aws-lgs-kr.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: aws-lgs-kr.zszweb.pp.ua
+  tfo: false
+- name: "[VLESS] \U0001F1F0\U0001F1F7 oracle1-kr-amd-vless-ws-tls"
+  type: vless
+  server: 104.18.7.218
+  port: 8443
+  uuid: 8eabb3f3-d2cd-4594-a6bb-df2c4d5f3bdb
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle1-kr-amd.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle1-kr-amd.zszweb.pp.ua
+  tfo: false
+- name: "[VMess] \U0001F1F0\U0001F1F7 oracle1-kr-amd-vmess-ws-tls"
+  type: vmess
+  server: 104.18.7.218
+  port: 2096
+  uuid: 002ab90f-c883-4309-9f4d-9c49df4daf49
+  alterId: 0
+  cipher: auto
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle1-kr-amd.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle1-kr-amd.zszweb.pp.ua
+  tfo: false
+- name: "[VLESS] \U0001F1F0\U0001F1F7 oracle1-kr-arm-vless-ws-tls"
+  type: vless
+  server: 104.18.7.218
+  port: 8443
+  uuid: e594ac37-6fde-4676-a65d-2e17b725fdb2
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle1-kr-arm.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle1-kr-arm.zszweb.pp.ua
+  tfo: false
+- name: "[VMess] \U0001F1F0\U0001F1F7 oracle1-kr-arm-vmess-ws-tls"
+  type: vmess
+  server: 104.18.7.218
+  port: 2096
+  uuid: 7571c3c2-3455-4b40-e8ee-0e9b5b71ddcf
+  alterId: 0
+  cipher: auto
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle1-kr-arm.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle1-kr-arm.zszweb.pp.ua
+  tfo: false
+- name: "[VLESS] \U0001F1F0\U0001F1F7 oracle2-kr-amd-vless-ws-tls"
+  type: vless
+  server: 104.18.7.218
+  port: 8443
+  uuid: 78508f49-cbeb-42e9-f040-f6f085e1b407
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle2-kr-amd.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle2-kr-amd.zszweb.pp.ua
+  tfo: false
+- name: "[VMess] \U0001F1F0\U0001F1F7 oracle2-kr-amd-vmess-ws-tls"
+  type: vmess
+  server: 104.18.7.218
+  port: 2096
+  uuid: 3803fe11-4f4f-4a1f-906e-a26c3ad72dd8
+  alterId: 0
+  cipher: auto
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle2-kr-amd.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle2-kr-amd.zszweb.pp.ua
+  tfo: false
+- name: "[VLESS] \U0001F1F0\U0001F1F7 oracle2-kr-arm-vless-ws-tls"
+  type: vless
+  server: 104.18.7.218
+  port: 8443
+  uuid: 7df358e6-8600-4745-d90a-9c9e1a6b04bb
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle2-kr-arm.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle2-kr-arm.zszweb.pp.ua
+  tfo: false
+- name: "[VMess] \U0001F1F0\U0001F1F7 oracle2-kr-arm-vmess-ws-tls"
+  type: vmess
+  server: 104.18.7.218
+  port: 2096
+  uuid: 91efa063-2a9e-4ec1-9329-b7cbbd017cc7
+  alterId: 0
+  cipher: auto
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle2-kr-arm.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle2-kr-arm.zszweb.pp.ua
+  tfo: false
+- name: "[VLESS] \U0001F1F8\U0001F1EC do-sg-vless-ws-tls"
+  type: vless
+  server: 104.18.7.218
+  port: 8443
+  uuid: 9363d88c-eaea-44cf-b2cd-884d92738aee
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: do-sg.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: do-sg.zszweb.pp.ua
+  tfo: false
+- name: "[VMess] \U0001F1F8\U0001F1EC do-sg-vmess-ws-tls"
+  type: vmess
+  server: 104.18.7.218
+  port: 2096
+  uuid: f5e38c15-70f7-4781-a700-5d3ca1baebce
+  alterId: 0
+  cipher: auto
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: do-sg.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: do-sg.zszweb.pp.ua
+  tfo: false
+- name: "[VLESS] \U0001F1F8\U0001F1EC google-sg-vless-ws-tls"
+  type: vless
+  server: 104.18.7.218
+  port: 8443
+  uuid: 07d0d308-bda0-44b6-912e-d293ebc264d9
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: google-sg.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: google-sg.zszweb.pp.ua
+  tfo: false
+- name: "[VMess] \U0001F1F8\U0001F1EC google-sg-vmess-ws-tls"
+  type: vmess
+  server: 104.18.7.218
+  port: 2096
+  uuid: a26f9eb1-fe1c-470f-b2ae-f571fe8a4e94
+  alterId: 0
+  cipher: auto
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: google-sg.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: google-sg.zszweb.pp.ua
+  tfo: false
+- name: "[VLESS] \U0001F1FA\U0001F1F8 do-us-vless-ws-tls"
+  type: vless
+  server: 104.18.7.218
+  port: 8443
+  uuid: 8409dc1c-9fc3-4881-f976-dd2c47726f06
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: do-us.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: do-us.zszweb.pp.ua
+  tfo: false
+- name: "[VMess] \U0001F1FA\U0001F1F8 do-us-vmess-ws-tls"
+  type: vmess
+  server: 104.18.7.218
+  port: 2096
+  uuid: 1c27ba41-4642-4c8c-8d4b-1acdaef2184c
+  alterId: 0
+  cipher: auto
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: do-us.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: do-us.zszweb.pp.ua
+  tfo: false
+- name: "[VLESS] \U0001F1FA\U0001F1F8 google-us-vless-ws-tls"
+  type: vless
+  server: 104.18.7.218
+  port: 8443
+  uuid: 06e2ae4b-1706-428c-8edf-988bea3009b7
+  udp: true
+  xudp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: google-us.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: google-us.zszweb.pp.ua
+  ip-version: ipv4-prefer
+  tfo: false
+  smux:
+    enabled: false
+- name: "[VMess] \U0001F1FA\U0001F1F8 google-us-vmess-ws-tls"
+  type: vmess
+  server: 104.18.7.218
+  port: 2096
+  uuid: e50acfe8-5ac7-4ea9-d297-6fb33ff3dde1
+  alterId: 0
+  cipher: auto
+  udp: true
+  xudp: true
+  global-padding: false
+  authenticated-length: false
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: google-us.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: google-us.zszweb.pp.ua
+  ip-version: ipv4-prefer
+  tfo: false
+  smux:
+    enabled: false
+- name: "[VLESS] \U0001F1FA\U0001F1F8 oracle1-us-sanjose-amd-vless-ws-tls"
+  type: vless
+  server: 104.18.7.218
+  port: 8443
+  uuid: 88c8173b-79ca-437e-a6d7-d57be29d9d39
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle1-us-sanjose-amd.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle1-us-sanjose-amd.zszweb.pp.ua
+  tfo: false
+- name: "[VMess] \U0001F1FA\U0001F1F8 oracle1-us-sanjose-amd-vmess-ws-tls"
+  type: vmess
+  server: 104.18.7.218
+  port: 2096
+  uuid: 6dbabaaa-4c5d-446c-bea4-a0c0f1a16fe7
+  alterId: 0
+  cipher: auto
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle1-us-sanjose-amd.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle1-us-sanjose-amd.zszweb.pp.ua
+  tfo: false
+- name: "[VLESS] \U0001F1FA\U0001F1F8 oracle2-us-sanjose-amd-vless-ws-tls"
+  type: vless
+  server: 104.18.7.218
+  port: 8443
+  uuid: 85a78f04-a4d0-4338-c986-de9d9cf06a36
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle2-us-sanjose-amd.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle2-us-sanjose-amd.zszweb.pp.ua
+  tfo: false
+- name: "[VMess] \U0001F1FA\U0001F1F8 oracle2-us-sanjose-amd-vmess-ws-tls"
+  type: vmess
+  server: 104.18.7.218
+  port: 2096
+  uuid: 7c50b738-cd8c-4098-dc4d-7d3bd85ec665
+  alterId: 0
+  cipher: auto
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: oracle2-us-sanjose-amd.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: oracle2-us-sanjose-amd.zszweb.pp.ua
+  tfo: false
+- name: "[VLESS] \U0001F1FA\U0001F1F8 vultr-us-seattle-vless-ws-tls"
+  type: vless
+  server: 104.18.7.218
+  port: 8443
+  uuid: c81ec378-b0c3-4b41-c18b-9d80e7808bf8
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: vultr-us-seattle.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: vultr-us-seattle.zszweb.pp.ua
+  tfo: false
+- name: "[VMess] \U0001F1FA\U0001F1F8 vultr-us-seattle-vmess-ws-tls"
+  type: vmess
+  server: 104.18.7.218
+  port: 2096
+  uuid: 7399fb75-2ad7-48df-bada-45b5c9e60bef
+  alterId: 0
+  cipher: auto
+  udp: true
+  skip-cert-verify: true
+  tls: true
+  client-fingerprint: chrome
+  servername: vultr-us-seattle.zszweb.pp.ua
+  network: ws
+  ws-opts:
+    path: "/"
+    headers:
+      Host: vultr-us-seattle.zszweb.pp.ua
+  tfo: false
+proxy-groups:
+- name: "\U0001F680 节点选择"
+  type: select
+  proxies:
+  - "♻️ 自动选择"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1E8\U0001F1F3 台湾节点"
+  - "\U0001F1F8\U0001F1EC 狮城节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1FA\U0001F1F2 美国节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F680 手动切换"
+  - DIRECT
+- name: "\U0001F680 手动切换"
+  type: select
+  proxies:
+  - "[VLESS] \U0001F1EB\U0001F1F7 oracle-france-ms-arm-vless-ws-tls"
+  - "[VMess] \U0001F1EB\U0001F1F7 oracle-france-ms-arm-vmess-ws-tls"
+  - "[VLESS] \U0001F1EF\U0001F1F5 aws-lgs-jp-vless-ws-tls"
+  - "[VMess] \U0001F1EF\U0001F1F5 aws-lgs-jp-vmess-ws-tls"
+  - "[VLESS] \U0001F1EF\U0001F1F5 oracle-jp-tokyo-trial-vless-ws-tls"
+  - "[VMess] \U0001F1EF\U0001F1F5 oracle-jp-tokyo-trial-vmess-ws-tls"
+  - "[VLESS] \U0001F1EF\U0001F1F5 oracle1-jp-tokyo-amd-vless-ws-tls"
+  - "[VMess] \U0001F1EF\U0001F1F5 oracle1-jp-tokyo-amd-vmess-ws-tls"
+  - "[VLESS] \U0001F1EF\U0001F1F5 oracle2-jp-tokyo-amd-vless-ws-tls"
+  - "[VMess] \U0001F1EF\U0001F1F5 oracle2-jp-tokyo-amd-vmess-ws-tls"
+  - "[VLESS] \U0001F1F0\U0001F1F7 aws-lgs-kr-vless-ws-tls"
+  - "[VMess] \U0001F1F0\U0001F1F7 aws-lgs-kr-vmess-ws-tls"
+  - "[VLESS] \U0001F1F0\U0001F1F7 oracle1-kr-amd-vless-ws-tls"
+  - "[VMess] \U0001F1F0\U0001F1F7 oracle1-kr-amd-vmess-ws-tls"
+  - "[VLESS] \U0001F1F0\U0001F1F7 oracle1-kr-arm-vless-ws-tls"
+  - "[VMess] \U0001F1F0\U0001F1F7 oracle1-kr-arm-vmess-ws-tls"
+  - "[VLESS] \U0001F1F0\U0001F1F7 oracle2-kr-amd-vless-ws-tls"
+  - "[VMess] \U0001F1F0\U0001F1F7 oracle2-kr-amd-vmess-ws-tls"
+  - "[VLESS] \U0001F1F0\U0001F1F7 oracle2-kr-arm-vless-ws-tls"
+  - "[VMess] \U0001F1F0\U0001F1F7 oracle2-kr-arm-vmess-ws-tls"
+  - "[VLESS] \U0001F1F8\U0001F1EC do-sg-vless-ws-tls"
+  - "[VMess] \U0001F1F8\U0001F1EC do-sg-vmess-ws-tls"
+  - "[VLESS] \U0001F1F8\U0001F1EC google-sg-vless-ws-tls"
+  - "[VMess] \U0001F1F8\U0001F1EC google-sg-vmess-ws-tls"
+  - "[VLESS] \U0001F1FA\U0001F1F8 do-us-vless-ws-tls"
+  - "[VMess] \U0001F1FA\U0001F1F8 do-us-vmess-ws-tls"
+  - "[VLESS] \U0001F1FA\U0001F1F8 google-us-vless-ws-tls"
+  - "[VMess] \U0001F1FA\U0001F1F8 google-us-vmess-ws-tls"
+  - "[VLESS] \U0001F1FA\U0001F1F8 oracle1-us-sanjose-amd-vless-ws-tls"
+  - "[VMess] \U0001F1FA\U0001F1F8 oracle1-us-sanjose-amd-vmess-ws-tls"
+  - "[VLESS] \U0001F1FA\U0001F1F8 oracle2-us-sanjose-amd-vless-ws-tls"
+  - "[VMess] \U0001F1FA\U0001F1F8 oracle2-us-sanjose-amd-vmess-ws-tls"
+  - "[VLESS] \U0001F1FA\U0001F1F8 vultr-us-seattle-vless-ws-tls"
+  - "[VMess] \U0001F1FA\U0001F1F8 vultr-us-seattle-vmess-ws-tls"
+- name: "♻️ 自动选择"
+  type: url-test
+  proxies:
+  - "[VLESS] \U0001F1EB\U0001F1F7 oracle-france-ms-arm-vless-ws-tls"
+  - "[VMess] \U0001F1EB\U0001F1F7 oracle-france-ms-arm-vmess-ws-tls"
+  - "[VLESS] \U0001F1EF\U0001F1F5 aws-lgs-jp-vless-ws-tls"
+  - "[VMess] \U0001F1EF\U0001F1F5 aws-lgs-jp-vmess-ws-tls"
+  - "[VLESS] \U0001F1EF\U0001F1F5 oracle-jp-tokyo-trial-vless-ws-tls"
+  - "[VMess] \U0001F1EF\U0001F1F5 oracle-jp-tokyo-trial-vmess-ws-tls"
+  - "[VLESS] \U0001F1EF\U0001F1F5 oracle1-jp-tokyo-amd-vless-ws-tls"
+  - "[VMess] \U0001F1EF\U0001F1F5 oracle1-jp-tokyo-amd-vmess-ws-tls"
+  - "[VLESS] \U0001F1EF\U0001F1F5 oracle2-jp-tokyo-amd-vless-ws-tls"
+  - "[VMess] \U0001F1EF\U0001F1F5 oracle2-jp-tokyo-amd-vmess-ws-tls"
+  - "[VLESS] \U0001F1F0\U0001F1F7 aws-lgs-kr-vless-ws-tls"
+  - "[VMess] \U0001F1F0\U0001F1F7 aws-lgs-kr-vmess-ws-tls"
+  - "[VLESS] \U0001F1F0\U0001F1F7 oracle1-kr-amd-vless-ws-tls"
+  - "[VMess] \U0001F1F0\U0001F1F7 oracle1-kr-amd-vmess-ws-tls"
+  - "[VLESS] \U0001F1F0\U0001F1F7 oracle1-kr-arm-vless-ws-tls"
+  - "[VMess] \U0001F1F0\U0001F1F7 oracle1-kr-arm-vmess-ws-tls"
+  - "[VLESS] \U0001F1F0\U0001F1F7 oracle2-kr-amd-vless-ws-tls"
+  - "[VMess] \U0001F1F0\U0001F1F7 oracle2-kr-amd-vmess-ws-tls"
+  - "[VLESS] \U0001F1F0\U0001F1F7 oracle2-kr-arm-vless-ws-tls"
+  - "[VMess] \U0001F1F0\U0001F1F7 oracle2-kr-arm-vmess-ws-tls"
+  - "[VLESS] \U0001F1F8\U0001F1EC do-sg-vless-ws-tls"
+  - "[VMess] \U0001F1F8\U0001F1EC do-sg-vmess-ws-tls"
+  - "[VLESS] \U0001F1F8\U0001F1EC google-sg-vless-ws-tls"
+  - "[VMess] \U0001F1F8\U0001F1EC google-sg-vmess-ws-tls"
+  - "[VLESS] \U0001F1FA\U0001F1F8 do-us-vless-ws-tls"
+  - "[VMess] \U0001F1FA\U0001F1F8 do-us-vmess-ws-tls"
+  - "[VLESS] \U0001F1FA\U0001F1F8 google-us-vless-ws-tls"
+  - "[VMess] \U0001F1FA\U0001F1F8 google-us-vmess-ws-tls"
+  - "[VLESS] \U0001F1FA\U0001F1F8 oracle1-us-sanjose-amd-vless-ws-tls"
+  - "[VMess] \U0001F1FA\U0001F1F8 oracle1-us-sanjose-amd-vmess-ws-tls"
+  - "[VLESS] \U0001F1FA\U0001F1F8 oracle2-us-sanjose-amd-vless-ws-tls"
+  - "[VMess] \U0001F1FA\U0001F1F8 oracle2-us-sanjose-amd-vmess-ws-tls"
+  - "[VLESS] \U0001F1FA\U0001F1F8 vultr-us-seattle-vless-ws-tls"
+  - "[VMess] \U0001F1FA\U0001F1F8 vultr-us-seattle-vmess-ws-tls"
+  url: http://www.gstatic.com/generate_204
+  interval: '300'
+  tolerance: '50'
+- name: "\U0001F4F2 电报消息"
+  type: select
+  proxies:
+  - "\U0001F680 节点选择"
+  - "♻️ 自动选择"
+  - "\U0001F1F8\U0001F1EC 狮城节点"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1E8\U0001F1F3 台湾节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1FA\U0001F1F2 美国节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F680 手动切换"
+  - DIRECT
+- name: "\U0001F4F9 油管视频"
+  type: select
+  proxies:
+  - "\U0001F680 节点选择"
+  - "♻️ 自动选择"
+  - "\U0001F1F8\U0001F1EC 狮城节点"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1E8\U0001F1F3 台湾节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1FA\U0001F1F2 美国节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F680 手动切换"
+  - DIRECT
+- name: "\U0001F3B5 TikTok"
+  type: select
+  proxies:
+  - "\U0001F680 节点选择"
+  - "♻️ 自动选择"
+  - "\U0001F1F8\U0001F1EC 狮城节点"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1E8\U0001F1F3 台湾节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1FA\U0001F1F2 美国节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F680 手动切换"
+  - DIRECT
+- name: "\U0001F3A5 奈飞视频"
+  type: select
+  proxies:
+  - "\U0001F3A5 奈飞节点"
+  - "\U0001F680 节点选择"
+  - "♻️ 自动选择"
+  - "\U0001F1F8\U0001F1EC 狮城节点"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1E8\U0001F1F3 台湾节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1FA\U0001F1F2 美国节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F680 手动切换"
+  - DIRECT
+- name: "\U0001F4FA 巴哈姆特"
+  type: select
+  proxies:
+  - "\U0001F1E8\U0001F1F3 台湾节点"
+  - "\U0001F680 节点选择"
+  - "\U0001F680 手动切换"
+  - DIRECT
+- name: "\U0001F4FA 哔哩哔哩"
+  type: select
+  proxies:
+  - "\U0001F3AF 全球直连"
+  - "\U0001F1E8\U0001F1F3 台湾节点"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+- name: "\U0001F30D 国外媒体"
+  type: select
+  proxies:
+  - "\U0001F680 节点选择"
+  - "♻️ 自动选择"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1E8\U0001F1F3 台湾节点"
+  - "\U0001F1F8\U0001F1EC 狮城节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1FA\U0001F1F2 美国节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F680 手动切换"
+  - DIRECT
+- name: "\U0001F30F 国内媒体"
+  type: select
+  proxies:
+  - DIRECT
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1E8\U0001F1F3 台湾节点"
+  - "\U0001F1F8\U0001F1EC 狮城节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F680 手动切换"
+- name: "\U0001F916 OpenAI"
+  type: select
+  disable-udp: false
+  proxies:
+  - "♻️ 自动选择"
+  interval: '300'
+- name: "\U0001F4E2 谷歌FCM"
+  type: select
+  proxies:
+  - DIRECT
+  - "\U0001F680 节点选择"
+  - "\U0001F1FA\U0001F1F2 美国节点"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1E8\U0001F1F3 台湾节点"
+  - "\U0001F1F8\U0001F1EC 狮城节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F680 手动切换"
+- name: Ⓜ️ 微软云盘
+  type: select
+  proxies:
+  - DIRECT
+  - "\U0001F680 节点选择"
+  - "\U0001F1FA\U0001F1F2 美国节点"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1E8\U0001F1F3 台湾节点"
+  - "\U0001F1F8\U0001F1EC 狮城节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F680 手动切换"
+- name: Ⓜ️ 微软服务
+  type: select
+  proxies:
+  - DIRECT
+  - "\U0001F680 节点选择"
+  - "\U0001F1FA\U0001F1F2 美国节点"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1E8\U0001F1F3 台湾节点"
+  - "\U0001F1F8\U0001F1EC 狮城节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F680 手动切换"
+- name: "\U0001F34E 苹果服务"
+  type: select
+  proxies:
+  - DIRECT
+  - "\U0001F680 节点选择"
+  - "\U0001F1FA\U0001F1F2 美国节点"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1E8\U0001F1F3 台湾节点"
+  - "\U0001F1F8\U0001F1EC 狮城节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F680 手动切换"
+- name: "\U0001F3AE 游戏平台"
+  type: select
+  proxies:
+  - DIRECT
+  - "\U0001F680 节点选择"
+  - "\U0001F1FA\U0001F1F2 美国节点"
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1E8\U0001F1F3 台湾节点"
+  - "\U0001F1F8\U0001F1EC 狮城节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F680 手动切换"
+- name: "\U0001F3B6 网易音乐"
+  type: select
+  proxies:
+  - DIRECT
+  - "\U0001F680 节点选择"
+  - "♻️ 自动选择"
+- name: "\U0001F57A 字节跳动"
+  type: select
+  proxies:
+  - DIRECT
+  - REJECT
+  - "\U0001F680 手动切换"
+- name: "\U0001F3AF 全球直连"
+  type: select
+  proxies:
+  - DIRECT
+  - "\U0001F680 节点选择"
+  - "♻️ 自动选择"
+- name: "\U0001F6D1 广告拦截"
+  type: select
+  proxies:
+  - REJECT
+  - DIRECT
+- name: "\U0001F343 应用净化"
+  type: select
+  proxies:
+  - REJECT
+  - DIRECT
+- name: "\U0001F41F 漏网之鱼"
+  type: select
+  proxies:
+  - "\U0001F680 节点选择"
+  - "♻️ 自动选择"
+  - DIRECT
+  - "\U0001F1ED\U0001F1F0 香港节点"
+  - "\U0001F1E8\U0001F1F3 台湾节点"
+  - "\U0001F1F8\U0001F1EC 狮城节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  - "\U0001F1FA\U0001F1F2 美国节点"
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F680 手动切换"
+- name: "\U0001F1ED\U0001F1F0 香港节点"
+  type: url-test
+  proxies:
+  - DIRECT
+  url: http://www.gstatic.com/generate_204
+  interval: '300'
+  tolerance: '50'
+- name: "\U0001F1EF\U0001F1F5 日本节点"
+  type: url-test
+  proxies:
+  - "[VLESS] \U0001F1EF\U0001F1F5 aws-lgs-jp-vless-ws-tls"
+  - "[VMess] \U0001F1EF\U0001F1F5 aws-lgs-jp-vmess-ws-tls"
+  - "[VLESS] \U0001F1EF\U0001F1F5 oracle-jp-tokyo-trial-vless-ws-tls"
+  - "[VMess] \U0001F1EF\U0001F1F5 oracle-jp-tokyo-trial-vmess-ws-tls"
+  - "[VLESS] \U0001F1EF\U0001F1F5 oracle1-jp-tokyo-amd-vless-ws-tls"
+  - "[VMess] \U0001F1EF\U0001F1F5 oracle1-jp-tokyo-amd-vmess-ws-tls"
+  - "[VLESS] \U0001F1EF\U0001F1F5 oracle2-jp-tokyo-amd-vless-ws-tls"
+  - "[VMess] \U0001F1EF\U0001F1F5 oracle2-jp-tokyo-amd-vmess-ws-tls"
+  url: http://www.gstatic.com/generate_204
+  interval: '300'
+  tolerance: '50'
+- name: "\U0001F1FA\U0001F1F2 美国节点"
+  type: url-test
+  proxies:
+  - "[VLESS] \U0001F1FA\U0001F1F8 do-us-vless-ws-tls"
+  - "[VMess] \U0001F1FA\U0001F1F8 do-us-vmess-ws-tls"
+  - "[VLESS] \U0001F1FA\U0001F1F8 google-us-vless-ws-tls"
+  - "[VMess] \U0001F1FA\U0001F1F8 google-us-vmess-ws-tls"
+  - "[VLESS] \U0001F1FA\U0001F1F8 oracle1-us-sanjose-amd-vless-ws-tls"
+  - "[VMess] \U0001F1FA\U0001F1F8 oracle1-us-sanjose-amd-vmess-ws-tls"
+  - "[VLESS] \U0001F1FA\U0001F1F8 oracle2-us-sanjose-amd-vless-ws-tls"
+  - "[VMess] \U0001F1FA\U0001F1F8 oracle2-us-sanjose-amd-vmess-ws-tls"
+  - "[VLESS] \U0001F1FA\U0001F1F8 vultr-us-seattle-vless-ws-tls"
+  - "[VMess] \U0001F1FA\U0001F1F8 vultr-us-seattle-vmess-ws-tls"
+  url: http://www.gstatic.com/generate_204
+  interval: '300'
+  tolerance: '150'
+- name: "\U0001F1E8\U0001F1F3 台湾节点"
+  type: url-test
+  proxies:
+  - DIRECT
+  url: http://www.gstatic.com/generate_204
+  interval: '300'
+  tolerance: '50'
+- name: "\U0001F1F8\U0001F1EC 狮城节点"
+  type: url-test
+  proxies:
+  - "[VLESS] \U0001F1F8\U0001F1EC do-sg-vless-ws-tls"
+  - "[VMess] \U0001F1F8\U0001F1EC do-sg-vmess-ws-tls"
+  - "[VLESS] \U0001F1F8\U0001F1EC google-sg-vless-ws-tls"
+  - "[VMess] \U0001F1F8\U0001F1EC google-sg-vmess-ws-tls"
+  url: http://www.gstatic.com/generate_204
+  interval: '300'
+  tolerance: '50'
+- name: "\U0001F1F0\U0001F1F7 韩国节点"
+  type: url-test
+  proxies:
+  - "[VLESS] \U0001F1F0\U0001F1F7 aws-lgs-kr-vless-ws-tls"
+  - "[VMess] \U0001F1F0\U0001F1F7 aws-lgs-kr-vmess-ws-tls"
+  - "[VLESS] \U0001F1F0\U0001F1F7 oracle1-kr-amd-vless-ws-tls"
+  - "[VMess] \U0001F1F0\U0001F1F7 oracle1-kr-amd-vmess-ws-tls"
+  - "[VLESS] \U0001F1F0\U0001F1F7 oracle1-kr-arm-vless-ws-tls"
+  - "[VMess] \U0001F1F0\U0001F1F7 oracle1-kr-arm-vmess-ws-tls"
+  - "[VLESS] \U0001F1F0\U0001F1F7 oracle2-kr-amd-vless-ws-tls"
+  - "[VMess] \U0001F1F0\U0001F1F7 oracle2-kr-amd-vmess-ws-tls"
+  - "[VLESS] \U0001F1F0\U0001F1F7 oracle2-kr-arm-vless-ws-tls"
+  - "[VMess] \U0001F1F0\U0001F1F7 oracle2-kr-arm-vmess-ws-tls"
+  url: http://www.gstatic.com/generate_204
+  interval: '300'
+  tolerance: '50'
+- name: "\U0001F1EB\U0001F1F7 法国节点"
+  type: url-test
+  proxies:
+  - "[VLESS] \U0001F1EB\U0001F1F7 oracle-france-ms-arm-vless-ws-tls"
+  - "[VMess] \U0001F1EB\U0001F1F7 oracle-france-ms-arm-vmess-ws-tls"
+  url: http://www.gstatic.com/generate_204
+  interval: '300'
+  tolerance: '50'
+- name: "\U0001F3A5 奈飞节点"
+  type: select
+  proxies:
+  - DIRECT
+- name: Talktone
+  type: url-test
+  disable-udp: false
+  proxies:
+  - "[VLESS] \U0001F1FA\U0001F1F8 google-us-vless-ws-tls"
+  - "[VMess] \U0001F1FA\U0001F1F8 google-us-vmess-ws-tls"
+  url: http://www.gstatic.com/generate_204
+  interval: '300'
+  tolerance: '150'
+- name: GoogleVoice
+  type: url-test
+  disable-udp: false
+  proxies:
+  - Talktone
+  url: http://www.gstatic.com/generate_204
+  interval: '300'
+  tolerance: '150'
+- name: Bybit
+  type: url-test
+  disable-udp: false
+  proxies:
+  - "\U0001F1F0\U0001F1F7 韩国节点"
+  - "\U0001F1EF\U0001F1F5 日本节点"
+  url: http://www.gstatic.com/generate_204
+  interval: '300'
+  tolerance: '150'
+rules:
+- DST-PORT,7895,REJECT
+- DST-PORT,7892,REJECT
+- IP-CIDR,198.18.0.1/16,REJECT,no-resolve
+- DOMAIN-SUFFIX,tktn.be,Talktone
+- DOMAIN-SUFFIX,bybit.nl,Bybit
+- DOMAIN-SUFFIX,awesome-hd.me,DIRECT
+- DOMAIN-SUFFIX,broadcasthe.net,DIRECT
+- DOMAIN-SUFFIX,chdbits.co,DIRECT
+- DOMAIN-SUFFIX,classix-unlimited.co.uk,DIRECT
+- DOMAIN-SUFFIX,empornium.me,DIRECT
+- DOMAIN-SUFFIX,gazellegames.net,DIRECT
+- DOMAIN-SUFFIX,hdchina.org,DIRECT
+- DOMAIN-SUFFIX,hdsky.me,DIRECT
+- DOMAIN-SUFFIX,icetorrent.org,DIRECT
+- DOMAIN-SUFFIX,jpopsuki.eu,DIRECT
+- DOMAIN-SUFFIX,keepfrds.com,DIRECT
+- DOMAIN-SUFFIX,madsrevolution.net,DIRECT
+- DOMAIN-SUFFIX,m-team.cc,DIRECT
+- DOMAIN-SUFFIX,nanyangpt.com,DIRECT
+- DOMAIN-SUFFIX,ncore.cc,DIRECT
+- DOMAIN-SUFFIX,open.cd,DIRECT
+- DOMAIN-SUFFIX,ourbits.club,DIRECT
+- DOMAIN-SUFFIX,passthepopcorn.me,DIRECT
+- DOMAIN-SUFFIX,privatehd.to,DIRECT
+- DOMAIN-SUFFIX,redacted.ch,DIRECT
+- DOMAIN-SUFFIX,springsunday.net,DIRECT
+- DOMAIN-SUFFIX,tjupt.org,DIRECT
+- DOMAIN-SUFFIX,totheglory.im,DIRECT
+- DOMAIN-SUFFIX,smtp,DIRECT
+- DOMAIN-KEYWORD,announce,DIRECT
+- DOMAIN-KEYWORD,torrent,DIRECT
+- DOMAIN-KEYWORD,tracker,DIRECT
+- "RULE-SET,LocalAreaNetwork,\U0001F3AF 全球直连"
+- "RULE-SET,speedtest,\U0001F3AF 全球直连"
+- "RULE-SET,UnBan,\U0001F3AF 全球直连"
+- "RULE-SET,BanAD,\U0001F6D1 广告拦截"
+- "RULE-SET,BanProgramAD,\U0001F343 应用净化"
+- "RULE-SET,GoogleFCM,\U0001F4E2 谷歌FCM"
+- "RULE-SET,GoogleCN,\U0001F3AF 全球直连"
+- RULE-SET,OneDrive,Ⓜ️ 微软云盘
+- RULE-SET,Microsoft,Ⓜ️ 微软服务
+- "RULE-SET,Apple,\U0001F34E 苹果服务"
+- "RULE-SET,Telegram,\U0001F4F2 电报消息"
+- "RULE-SET,NetEaseMusic,\U0001F3B6 网易音乐"
+- "RULE-SET,Epic,\U0001F3AE 游戏平台"
+- "RULE-SET,Sony,\U0001F3AE 游戏平台"
+- "RULE-SET,Steam,\U0001F3AE 游戏平台"
+- "RULE-SET,TikTok,\U0001F3B5 TikTok"
+- "RULE-SET,ByteDance,\U0001F57A 字节跳动"
+- "RULE-SET,YouTube,\U0001F4F9 油管视频"
+- "RULE-SET,Netflix,\U0001F3A5 奈飞视频"
+- "RULE-SET,Bahamut,\U0001F4FA 巴哈姆特"
+- "RULE-SET,BilibiliHMT,\U0001F4FA 哔哩哔哩"
+- "RULE-SET,Bilibili,\U0001F4FA 哔哩哔哩"
+- "RULE-SET,OpenAI,\U0001F916 OpenAI"
+- "RULE-SET,ChinaMedia,\U0001F30F 国内媒体"
+- "RULE-SET,ProxyMedia,\U0001F30D 国外媒体"
+- "RULE-SET,ProxyGFWlist,\U0001F680 节点选择"
+- "RULE-SET,ChinaIp,\U0001F3AF 全球直连"
+- "RULE-SET,ChinaDomain,\U0001F3AF 全球直连"
+- "RULE-SET,ChinaCompanyIp,\U0001F3AF 全球直连"
+- "DOMAIN-SUFFIX,xn--ngstr-lra8j.com,\U0001F680 节点选择"
+- "DOMAIN-SUFFIX,services.googleapis.cn,\U0001F680 节点选择"
+- "RULE-SET,GoogleCNProxyIP,\U0001F680 节点选择"
+- "RULE-SET,Download,\U0001F3AF 全球直连"
+- RULE-SET,TalktoneRule,DIRECT
+- "RULE-SET,GoogleVoiceRule,\U0001F680 节点选择"
+- "GEOIP,CN,\U0001F3AF 全球直连,no-resolve"
+- PROCESS-NAME,aria2c,DIRECT
+- PROCESS-NAME,BitComet,DIRECT
+- PROCESS-NAME,fdm,DIRECT
+- PROCESS-NAME,NetTransport,DIRECT
+- PROCESS-NAME,qbittorrent,DIRECT
+- PROCESS-NAME,Thunder,DIRECT
+- PROCESS-NAME,transmission-daemon,DIRECT
+- PROCESS-NAME,transmission-qt,DIRECT
+- PROCESS-NAME,uTorrent,DIRECT
+- PROCESS-NAME,WebTorrent,DIRECT
+- PROCESS-NAME,Folx,DIRECT
+- PROCESS-NAME,Transmission,DIRECT
+- PROCESS-NAME,WebTorrent Helper,DIRECT
+- PROCESS-NAME,v2ray,DIRECT
+- PROCESS-NAME,ss-local,DIRECT
+- PROCESS-NAME,ssr-local,DIRECT
+- PROCESS-NAME,ss-redir,DIRECT
+- PROCESS-NAME,ssr-redir,DIRECT
+- PROCESS-NAME,ss-server,DIRECT
+- PROCESS-NAME,trojan-go,DIRECT
+- PROCESS-NAME,xray,DIRECT
+- PROCESS-NAME,hysteria,DIRECT
+- PROCESS-NAME,singbox,DIRECT
+- PROCESS-NAME,UUBooster,DIRECT
+- PROCESS-NAME,uugamebooster,DIRECT
+- "DST-PORT,80,\U0001F41F 漏网之鱼"
+- "DST-PORT,443,\U0001F41F 漏网之鱼"
+- "DST-PORT,22,\U0001F41F 漏网之鱼"
+- MATCH,DIRECT
+rule-providers:
+  LocalAreaNetwork:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvTG9jYWxBcmVhTmV0d29yay5saXN0
+    path: "./rule_provider/rule-provider_LocalAreaNetwork.yaml"
+    interval: 86400
+  speedtest:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL1l1YW5Nb28vQ2xhc2hDdXN0b21SdWxlL21hc3Rlci9zcGVlZHRlc3QubGlzdA
+    path: "./rule_provider/rule-provider_speedtest.yaml"
+    interval: 86400
+  UnBan:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvVW5CYW4ubGlzdA
+    path: "./rule_provider/rule-provider_UnBan.yaml"
+    interval: 86400
+  BanAD:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvQmFuQUQubGlzdA
+    path: "./rule_provider/rule-provider_BanAD.yaml"
+    interval: 86400
+  BanProgramAD:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvQmFuUHJvZ3JhbUFELmxpc3Q
+    path: "./rule_provider/rule-provider_BanProgramAD.yaml"
+    interval: 86400
+  GoogleFCM:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvUnVsZXNldC9Hb29nbGVGQ00ubGlzdA
+    path: "./rule_provider/rule-provider_GoogleFCM.yaml"
+    interval: 86400
+  GoogleCN:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvR29vZ2xlQ04ubGlzdA
+    path: "./rule_provider/rule-provider_GoogleCN.yaml"
+    interval: 86400
+  OneDrive:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvT25lRHJpdmUubGlzdA
+    path: "./rule_provider/rule-provider_OneDrive.yaml"
+    interval: 86400
+  Microsoft:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvTWljcm9zb2Z0Lmxpc3Q
+    path: "./rule_provider/rule-provider_Microsoft.yaml"
+    interval: 86400
+  Apple:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvQXBwbGUubGlzdA
+    path: "./rule_provider/rule-provider_Apple.yaml"
+    interval: 86400
+  Telegram:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvVGVsZWdyYW0ubGlzdA
+    path: "./rule_provider/rule-provider_Telegram.yaml"
+    interval: 86400
+  NetEaseMusic:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvUnVsZXNldC9OZXRFYXNlTXVzaWMubGlzdA
+    path: "./rule_provider/rule-provider_NetEaseMusic.yaml"
+    interval: 86400
+  Epic:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvUnVsZXNldC9FcGljLmxpc3Q
+    path: "./rule_provider/rule-provider_Epic.yaml"
+    interval: 86400
+  Sony:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvUnVsZXNldC9Tb255Lmxpc3Q
+    path: "./rule_provider/rule-provider_Sony.yaml"
+    interval: 86400
+  Steam:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvUnVsZXNldC9TdGVhbS5saXN0
+    path: "./rule_provider/rule-provider_Steam.yaml"
+    interval: 86400
+  TikTok:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvUnVsZXNldC9UaWtUb2subGlzdA
+    path: "./rule_provider/rule-provider_TikTok.yaml"
+    interval: 86400
+  ByteDance:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL1l1YW5Nb28vQ2xhc2hDdXN0b21SdWxlL21haW4vQnl0ZURhbmNlLmxpc3Q
+    path: "./rule_provider/rule-provider_ByteDance.yaml"
+    interval: 86400
+  YouTube:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvUnVsZXNldC9Zb3VUdWJlLmxpc3Q
+    path: "./rule_provider/rule-provider_YouTube.yaml"
+    interval: 86400
+  Netflix:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvUnVsZXNldC9OZXRmbGl4Lmxpc3Q
+    path: "./rule_provider/rule-provider_Netflix.yaml"
+    interval: 86400
+  Bahamut:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvUnVsZXNldC9CYWhhbXV0Lmxpc3Q
+    path: "./rule_provider/rule-provider_Bahamut.yaml"
+    interval: 86400
+  BilibiliHMT:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvUnVsZXNldC9CaWxpYmlsaUhNVC5saXN0
+    path: "./rule_provider/rule-provider_BilibiliHMT.yaml"
+    interval: 86400
+  Bilibili:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvUnVsZXNldC9CaWxpYmlsaS5saXN0
+    path: "./rule_provider/rule-provider_Bilibili.yaml"
+    interval: 86400
+  OpenAI:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2JsYWNrbWF0cml4Ny9pb3NfcnVsZV9zY3JpcHQvbWFzdGVyL3J1bGUvU3VyZ2UvT3BlbkFJL09wZW5BSS5saXN0
+    path: "./rule_provider/rule-provider_OpenAI.yaml"
+    interval: 86400
+  ChinaMedia:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvQ2hpbmFNZWRpYS5saXN0
+    path: "./rule_provider/rule-provider_ChinaMedia.yaml"
+    interval: 86400
+  ProxyMedia:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvUHJveHlNZWRpYS5saXN0
+    path: "./rule_provider/rule-provider_ProxyMedia.yaml"
+    interval: 86400
+  ProxyGFWlist:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvUHJveHlHRldsaXN0Lmxpc3Q
+    path: "./rule_provider/rule-provider_ProxyGFWlist.yaml"
+    interval: 86400
+  ChinaIp:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvQ2hpbmFJcC5saXN0
+    path: "./rule_provider/rule-provider_ChinaIp.yaml"
+    interval: 86400
+  ChinaDomain:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvQ2hpbmFEb21haW4ubGlzdA
+    path: "./rule_provider/rule-provider_ChinaDomain.yaml"
+    interval: 86400
+  ChinaCompanyIp:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvQ2hpbmFDb21wYW55SXAubGlzdA
+    path: "./rule_provider/rule-provider_ChinaCompanyIp.yaml"
+    interval: 86400
+  GoogleCNProxyIP:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvUnVsZXNldC9Hb29nbGVDTlByb3h5SVAubGlzdA
+    path: "./rule_provider/rule-provider_GoogleCNProxyIP.yaml"
+    interval: 86400
+  Download:
+    type: http
+    behavior: classical
+    url: https://v.id9.cc/getruleset?type=6&url=aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL0FDTDRTU1IvQUNMNFNTUi9tYXN0ZXIvQ2xhc2gvRG93bmxvYWQubGlzdA
+    path: "./rule_provider/rule-provider_Download.yaml"
+    interval: 86400
+  TalktoneRule:
+    type: file
+    behavior: classical
+    path: "./rule_provider/talktone"
+    format: yaml
+  GoogleVoiceRule:
+    type: file
+    behavior: classical
+    path: "./rule_provider/GoogleVoice.yaml"
+    format: yaml
+redir-port: 7892
+tproxy-port: 7895
+mixed-port: 7893
+secret: '123456'
+bind-address: "*"
+external-ui: "/usr/share/openclash/ui"
+ipv6: false
+tcp-concurrent: true
+unified-delay: true
+dns:
+  enable: true
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  listen: 0.0.0.0:7874
+  nameserver:
+  - 114.114.114.114
+  - 119.29.29.29
+  - 119.28.28.28
+  - 223.5.5.5
+  - https://doh.pub/dns-query
+  - https://dns.alidns.com/dns-query
+  fallback:
+  - https://dns.cloudflare.com/dns-query
+  - tls://dns.google:853
+  - https://1.1.1.1/dns-query
+  - tls://1.1.1.1:853
+  - tls://8.8.8.8:853
+  - https://public.dns.iij.jp/dns-query
+  - https://jp.tiar.app/dns-query
+  - https://jp.tiarap.org/dns-query
+  - tls://jp.tiar.app
+  - tls://dot.tiar.app
+  - https://doh.dnslify.com/dns-query
+  - https://dns.twnic.tw/dns-query
+  - https://dns.oszx.co/dns-query
+  - https://dnsforge.de/dns-query
+  - https://doh.ffmuc.net/dns-query
+  - https://doh.mullvad.net/dns-query
+  fake-ip-filter:
+  - "+.nflxvideo.net"
+  - "+.media.dssott.com"
+sniffer:
+  enable: true
+  parse-pure-ip: true
+profile:
+  store-selected: true
+  store-fake-ip: true
+authentication:
+- openClash:zsz123456
