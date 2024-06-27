@@ -22,6 +22,7 @@ payload:
   - DOMAIN-SUFFIX, oaiusercontent.com
   - DOMAIN-SUFFIX, openai.com
   # Copilot
+  - DOMAIN, copilot.microsoft.com
   - DOMAIN, chat.openai.com.cdn.cloudflare.net
   - DOMAIN, o33249.ingest.sentry.io
   - DOMAIN, openaiapi-site.azureedge.net
