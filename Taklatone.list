@@ -1,14 +1,29 @@
 # talkatone
 
 DOMAIN-SUFFIX,mobilefuse.com
+DOMAIN-SUFFIX,amazon-adssystem.com
+DOMAIN-SUFFIX,smaato.com
 DOMAIN-SUFFIX,inmobi.com
+DOMAIN-SUFFIX,rlcdn.com
+DOMAIN-SUFFIX,inner-ative.mobi
+DOMAIN-SUFFIX,pubmatic.com
+DOMAIN-SUFFIX,agkn.com
+DOMAIN-SUFFIX,criteo.com
+DOMAIN-SUFFIX,app-analytics-services-att.com
+DOMAIN-SUFFIX,tappx.com
+DOMAIN-SUFFIX,doubleclick-cn.net
+
 DOMAIN-SUFFIX,crashlytics.com
 DOMAIN-SUFFIX,talkatone.com
 DOMAIN-SUFFIX,kochava.com
 DOMAIN-SUFFIX,cohere.com
 DOMAIN-SUFFIX,ip-api.com
-DOMAIN-SUFFIX,agkn.com
 DOMAIN-SUFFIX,tktn.at
+
+
+
+
+
 IP-CIDR,50.117.27.0/24
 IP-CIDR,69.46.75.0/24
 IP-CIDR,205.164.56.0/24
