@@ -8,6 +8,10 @@ DOMAIN-SUFFIX,coinbase.com
 DOMAIN-SUFFIX,monese.com
 DOMAIN-SUFFIX,mobilum.com
 
+DOMAIN-SUFFIX,straitsx.com
+
+DOMAIN-KEYWORD,gnosispay
+
 DOMAIN-KEYWORD,myguava
 DOMAIN-KEYWORD,guavapay
 
