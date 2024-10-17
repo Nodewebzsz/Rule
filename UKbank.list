@@ -1,13 +1,24 @@
 # uk bank 
 
 DOMAIN-SUFFIX,bankera.com
+
 DOMAIN-SUFFIX,ifastgb.com
+
 DOMAIN-SUFFIX,trading212.com
+
 DOMAIN-SUFFIX,zen.com
+
 DOMAIN-KEYWORD,uphold
+
+OMAIN-KEYWORD,monzo
+
 DOMAIN-SUFFIX,myfin.bg
 DOMAIN-SUFFIX,fibank.bg
+
 DOMAIN-SUFFIX,bybit.nl
+
 DOMAIN-KEYWORD,dukascopy
+
 DOMAIN-KEYWORD,metamask
+
 DOMAIN-KEYWORD,neverless
