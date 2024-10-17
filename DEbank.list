@@ -1,26 +1,45 @@
 # DE bank 
 
+# moneybase
 DOMAIN-KEYWORD,moneybase
+
+# n26
 DOMAIN-KEYWORD,westernunion
 
+# n26
 DOMAIN-KEYWORD,n26
 DOMAIN-KEYWORD,number26
 DOMAIN-KEYWORD,tech26
 
+# curve
 DOMAIN-KEYWORD,curve
 
+# stables
 DOMAIN-KEYWORD,stables
 
+# straitsx
+DOMAIN-KEYWORD,straitsx
+
+# cex
 DOMAIN-SUFFIX,cex.io
+
+# coinbase
 DOMAIN-SUFFIX,coinbase.com
+
+# monese
 DOMAIN-SUFFIX,monese.com
+
+# mobilum
 DOMAIN-SUFFIX,mobilum.com
 
+# straitsx
 DOMAIN-SUFFIX,straitsx.com
 
+# gnosispay
 DOMAIN-KEYWORD,gnosispay
 DOMAIN-KEYWORD,gnosischain
 
+# myguava
 DOMAIN-KEYWORD,myguava
 DOMAIN-KEYWORD,guavapay
 
@@ -34,14 +53,23 @@ DOMAIN-KEYWORD,bybdc6
 DOMAIN-KEYWORD,byapps
 DOMAIN-KEYWORD,bitverse
 
+# okx
 DOMAIN-KEYWORD,okx
 
+# gate
 DOMAIN-SUFFIX,gate.io
 DOMAIN-KEYWORD,gatedata
 DOMAIN-KEYWORD,gatetrace
 DOMAIN-KEYWORD,gateio
 
+# wuzo
 DOMAIN-KEYWORD,wuzo
+
+# fiat24
 DOMAIN-KEYWORD,fiat24
+
+# bilderlings
 DOMAIN-KEYWORD,bilderlings
+
+# currenciesdirect
 DOMAIN-KEYWORD,currenciesdirect
