@@ -9,6 +9,10 @@ DOMAIN-SUFFIX,ifastgb.com
 # trading212
 DOMAIN-SUFFIX,trading212.com
 
+# curve
+DOMAIN-KEYWORD,curve
+
+
 # zen
 DOMAIN-SUFFIX,zen.com
 
