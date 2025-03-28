@@ -1,6 +1,9 @@
 # uk bank 
 
 
+# equifax
+DOMAIN-KEYWORD,equifax
+
 # clearscore
 DOMAIN-KEYWORD,clearscore
 
