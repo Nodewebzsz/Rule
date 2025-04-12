@@ -74,6 +74,10 @@ DOMAIN-KEYWORD,uphold
 # monzo
 DOMAIN-KEYWORD,monzo
 
+# myguava
+DOMAIN-KEYWORD,myguava
+DOMAIN-KEYWORD,guavapay
+
 # myfin
 
 DOMAIN-SUFFIX,myfin.bg
