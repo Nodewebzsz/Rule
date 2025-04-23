@@ -1,99 +1,72 @@
 # uk bank 
 
-
-# equifax
-DOMAIN-KEYWORD,equifax
-
 # loqbox
 DOMAIN-KEYWORD,loqbox
-
+# equifax
+DOMAIN-KEYWORD,equifax
+# credability
+DOMAIN-KEYWORD,credability
 # creditkarma
 DOMAIN-KEYWORD,creditkarma
-
 # clearscore
 DOMAIN-KEYWORD,clearscore
-
-
+# experian
+DOMAIN-KEYWORD,experian
 # checkmyfile
 DOMAIN-KEYWORD,checkmyfile
-
 # totallymoney
 DOMAIN-KEYWORD,totallymoney
 
-# lemfi
-DOMAIN-KEYWORD,lemonade
 
-# wirexapp
-DOMAIN-KEYWORD,wirexapp
-
-# sumup
-DOMAIN-KEYWORD,sumup
-
-# altery
-DOMAIN-KEYWORD,altery
 
 # zilch
 DOMAIN-KEYWORD,zilch
-
+# monzo
+DOMAIN-KEYWORD,monzo
 # chase
 DOMAIN-KEYWORD,chase
-
 # hsbc
 DOMAIN-KEYWORD,hsbc
-
-# freetrade
-DOMAIN-KEYWORD,freetrade
-DOMAIN-KEYWORD,asnapieu
-
+# yonder
+DOMAIN-KEYWORD,yonder
 # schwab.com
 DOMAIN-KEYWORD,schwab
 
-# experian
-DOMAIN-KEYWORD,experian
 
-# zero.co.uk
-DOMAIN-KEYWORD,zero
 
-# curve
-DOMAIN-KEYWORD,curve
-
-# currenciesdirect
-DOMAIN-KEYWORD,currenciesdirect
-
-# yonder
-DOMAIN-KEYWORD,yonder
-
-# stables
-DOMAIN-KEYWORD,stables
-DOMAIN-KEYWORD,amplitude
-DOMAIN-SUFFIX,tiiik.money
-
-# ifastgb
-DOMAIN-SUFFIX,ifastgb.com
-
-# trading212
-DOMAIN-SUFFIX,trading212.com
-
-# zen
-DOMAIN-SUFFIX,zen.com
-
-# uphold
-DOMAIN-KEYWORD,uphold
-
-# monzo
-DOMAIN-KEYWORD,monzo
 
 # myguava
 DOMAIN-KEYWORD,myguava
 DOMAIN-KEYWORD,guavapay
-
+# trading212
+DOMAIN-SUFFIX,trading212.com
+# ifastgb
+DOMAIN-SUFFIX,ifastgb.com
+# lemfi
+DOMAIN-KEYWORD,lemonade
+# wirexapp
+DOMAIN-KEYWORD,wirexapp
+# sumup
+DOMAIN-KEYWORD,sumup
+# altery
+DOMAIN-KEYWORD,altery
+# freetrade
+DOMAIN-KEYWORD,freetrade
+DOMAIN-KEYWORD,asnapieu
+# zero.co.uk
+DOMAIN-KEYWORD,zero
+# curve
+DOMAIN-KEYWORD,curve
+# currenciesdirect
+DOMAIN-KEYWORD,currenciesdirect
+# stables
+DOMAIN-KEYWORD,stables
+DOMAIN-KEYWORD,amplitude
+DOMAIN-SUFFIX,tiiik.money
 # myfin
-
 DOMAIN-SUFFIX,myfin.bg
 DOMAIN-SUFFIX,fibank.bg
-
 # metamask
 DOMAIN-KEYWORD,metamask
-
 # neverless
 DOMAIN-KEYWORD,neverless
