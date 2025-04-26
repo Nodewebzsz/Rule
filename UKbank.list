@@ -68,5 +68,7 @@ DOMAIN-SUFFIX,myfin.bg
 DOMAIN-SUFFIX,fibank.bg
 # metamask
 DOMAIN-KEYWORD,metamask
+# p100
+DOMAIN-KEYWORD,p100
 # neverless
 DOMAIN-KEYWORD,neverless
