@@ -72,3 +72,6 @@ DOMAIN-KEYWORD,metamask
 DOMAIN-KEYWORD,p100
 # neverless
 DOMAIN-KEYWORD,neverless
+
+# ether.fi
+DOMAIN-SUFFIX,ether.fi
