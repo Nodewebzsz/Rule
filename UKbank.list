@@ -72,6 +72,10 @@ DOMAIN-SUFFIX,tiiik.money
 # myfin
 DOMAIN-SUFFIX,myfin.bg
 DOMAIN-SUFFIX,fibank.bg
+
+
+# osl
+DOMAIN-KEYWORD,osl
 # metamask
 DOMAIN-KEYWORD,metamask
 # p100
