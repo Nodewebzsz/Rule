@@ -72,9 +72,10 @@ DOMAIN-SUFFIX,tiiik.money
 # myfin
 DOMAIN-SUFFIX,myfin.bg
 DOMAIN-SUFFIX,fibank.bg
-#thekingdombank
+# thekingdombank
 DOMAIN-SUFFIX,thekingdombank
-
+# quidco
+DOMAIN-SUFFIX,quidco
 
 # osl
 DOMAIN-KEYWORD,osl
