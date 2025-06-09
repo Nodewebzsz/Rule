@@ -76,6 +76,8 @@ DOMAIN-SUFFIX,fibank.bg
 DOMAIN-SUFFIX,thekingdombank
 # quidco
 DOMAIN-SUFFIX,quidco
+# transfergo
+DOMAIN-SUFFIX,transfergo
 
 # osl
 DOMAIN-KEYWORD,osl
