@@ -79,6 +79,9 @@ DOMAIN-SUFFIX,quidco
 # transfergo
 DOMAIN-SUFFIX,transfergo
 
+
+# kraken
+DOMAIN-KEYWORD,kraken
 # osl
 DOMAIN-KEYWORD,osl
 # metamask
