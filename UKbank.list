@@ -68,6 +68,8 @@ DOMAIN-KEYWORD,zero
 DOMAIN-KEYWORD,curve
 # currenciesdirect
 DOMAIN-KEYWORD,currenciesdirect
+# currensea
+DOMAIN-KEYWORD,currensea
 # stables
 DOMAIN-KEYWORD,stables
 DOMAIN-KEYWORD,amplitude
