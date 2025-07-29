@@ -35,7 +35,8 @@ DOMAIN-KEYWORD,schwab
 DOMAIN-KEYWORD,moneyboxapp
 # withplum
 DOMAIN-KEYWORD,withplum
-
+# kroo
+DOMAIN-KEYWORD,kroo
 # lloydsbank
 DOMAIN-KEYWORD,lloyds
 
@@ -56,25 +57,19 @@ DOMAIN-KEYWORD,lemfi
 DOMAIN-KEYWORD,wirexapp
 # sumup
 DOMAIN-KEYWORD,sumup
+
+
 # altery
 DOMAIN-KEYWORD,altery
-# nexo
-DOMAIN-KEYWORD,nexo
-# freetrade
-DOMAIN-KEYWORD,freetrade
-DOMAIN-KEYWORD,asnapieu
 # zero.co.uk
 DOMAIN-KEYWORD,zero
 # curve
 DOMAIN-KEYWORD,curve
+
 # currenciesdirect
 DOMAIN-KEYWORD,currenciesdirect
 # currensea
 DOMAIN-KEYWORD,currensea
-# stables
-DOMAIN-KEYWORD,stables
-DOMAIN-KEYWORD,amplitude
-DOMAIN-SUFFIX,tiiik.money
 # myfin
 DOMAIN-SUFFIX,myfin.bg
 DOMAIN-SUFFIX,fibank.bg
@@ -86,10 +81,6 @@ DOMAIN-SUFFIX,quidco
 DOMAIN-SUFFIX,transfergo
 # chip
 DOMAIN-KEYWORD,chiphq
-
-
-
-
 
 
 # kraken
