@@ -57,8 +57,7 @@ DOMAIN-KEYWORD,lemfi
 DOMAIN-KEYWORD,wirexapp
 # sumup
 DOMAIN-KEYWORD,sumup
-# remity
-DOMAIN-KEYWORD,remity
+
 
 
 # altery
@@ -83,6 +82,8 @@ DOMAIN-SUFFIX,quidco
 DOMAIN-SUFFIX,transfergo
 # chip
 DOMAIN-KEYWORD,chiphq
+# remitly
+DOMAIN-KEYWORD,remitly
 
 
 # kraken
