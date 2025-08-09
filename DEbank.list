@@ -40,6 +40,11 @@ DOMAIN-KEYWORD,n26
 DOMAIN-KEYWORD,number26
 DOMAIN-KEYWORD,tech26
 
+# tomorrow
+DOMAIN-SUFFIX,tomorrow.one
+
+# vivid
+DOMAIN-SUFFIX,vivid.money
 
 # klarna
 DOMAIN-KEYWORD,klarna
@@ -50,7 +55,17 @@ DOMAIN-KEYWORD,amplitude
 DOMAIN-SUFFIX,tiiik.money
 
 
+# nexo
+DOMAIN-KEYWORD,nexo
 
+# okx
+DOMAIN-KEYWORD,okx
+
+# gate
+DOMAIN-SUFFIX,gate.io
+DOMAIN-KEYWORD,gatedata
+DOMAIN-KEYWORD,gatetrace
+DOMAIN-KEYWORD,gateio
 # cex
 DOMAIN-SUFFIX,cex.io
 
@@ -63,12 +78,9 @@ DOMAIN-SUFFIX,monese.com
 # mobilum
 DOMAIN-SUFFIX,mobilum.com
 
-
 # gnosispay
 DOMAIN-KEYWORD,gnosispay
 DOMAIN-KEYWORD,gnosischain
-
-
 
 # bybit
 DOMAIN-KEYWORD,bybit
@@ -79,15 +91,6 @@ DOMAIN-KEYWORD,byabcde
 DOMAIN-KEYWORD,bybdc6
 DOMAIN-KEYWORD,byapps
 DOMAIN-KEYWORD,bitverse
-
-# okx
-DOMAIN-KEYWORD,okx
-
-# gate
-DOMAIN-SUFFIX,gate.io
-DOMAIN-KEYWORD,gatedata
-DOMAIN-KEYWORD,gatetrace
-DOMAIN-KEYWORD,gateio
 
 # wuzo
 DOMAIN-KEYWORD,wuzo
@@ -119,12 +122,6 @@ DOMAIN-KEYWORD,bankera
 
 # vodafone.de
 DOMAIN-SUFFIX,vodafone.de
-
-# tomorrow
-DOMAIN-SUFFIX,tomorrow.one
-
-# vivid
-DOMAIN-SUFFIX,vivid.money
 
 
 # naga
