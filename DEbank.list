@@ -64,6 +64,7 @@ DOMAIN-KEYWORD,okx
 # gate
 DOMAIN-SUFFIX,gate.io
 DOMAIN-KEYWORD,gatedata
+DOMAIN-KEYWORD,gate
 DOMAIN-KEYWORD,gatetrace
 DOMAIN-KEYWORD,gateio
 # cex
