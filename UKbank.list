@@ -25,6 +25,9 @@ DOMAIN-KEYWORD,zilch
 DOMAIN-KEYWORD,monzo
 # chase
 DOMAIN-KEYWORD,chase
+# jaja
+DOMAIN-KEYWORD,jaja
+DOMAIN-SUFFIX,jaja.finance
 # hsbc
 DOMAIN-KEYWORD,hsbc
 # yonder
