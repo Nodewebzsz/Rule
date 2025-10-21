@@ -82,8 +82,6 @@ DOMAIN-SUFFIX,myfin.bg
 DOMAIN-SUFFIX,fibank.bg
 # thekingdombank
 DOMAIN-SUFFIX,thekingdombank
-# quidco
-DOMAIN-SUFFIX,quidco
 # transfergo
 DOMAIN-SUFFIX,transfergo
 # chip
@@ -91,6 +89,11 @@ DOMAIN-KEYWORD,chiphq
 # remitly
 DOMAIN-KEYWORD,remitly
 
+
+# quidco
+DOMAIN-SUFFIX,quidco
+# topcashback
+DOMAIN-SUFFIX,topcashback
 
 # kraken
 DOMAIN-KEYWORD,kraken
