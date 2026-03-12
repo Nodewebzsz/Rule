@@ -43,7 +43,7 @@ echo "================ 2.4 修改 oh-my-zsh 配置 ================"
 
 # 2.4.1 更换 ZSH 主题
 echo "更换 ZSH 主题为 pygmalion..."
-sed -i 's/^ZSH_THEME=".*"/ZSH_THEME="pygmalion"/' /root/.zshrc
+sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="pygmalion"/' /root/.zshrc
 
 # 2.4.2 安装插件
 echo "安装 fasd..."
@@ -57,11 +57,8 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM}/plugins
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
 
 echo "修改 /root/.zshrc 文件中的 plugins 配置..."
-# 使用 sed 替换掉默认的多行或单行 plugins 配置
-sed -i -e '/^plugins=(/,/)/c\
-plugins=(\n\
-  git extract fasd zsh-autosuggestions zsh-syntax-highlighting\n\
-)' /root/.zshrc
+# 使用单行精确替换默认的 plugins=(git)，避开多行替换在某些 sed 版本上的兼容性问题
+sed -i 's/^plugins=(git)/plugins=(git extract fasd zsh-autosuggestions zsh-syntax-highlighting)/' /root/.zshrc
 
 echo "添加快捷 alias 配置..."
 cat << 'EOF' >> /root/.zshrc
