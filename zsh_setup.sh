@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # ==============================================================================
-# ubuntu_zsh_setup.sh
-# 该脚本用于在 Ubuntu 系统下自动化配置 zsh、oh-my-zsh 及相关主题、插件
+# ubuntu_zsh_setup.sh (同时兼容 Debian)
+# 该脚本用于在 Ubuntu / Debian 系统下自动化配置 zsh、oh-my-zsh 及相关主题、插件
 # ==============================================================================
 
 # 1. 要求在 root 权限下进行
 if [ "$EUID" -ne 0 ]; then
-  echo "请使用 root 权限运行此脚本 (例如使用: sudo ./ubuntu_zsh_setup.sh)"
+  echo "请使用 root 权限运行此脚本 (例如使用: sudo ./ubuntu_zsh_setup.sh，或者直接在 root 账户下执行)"
   exit 1
 fi
 
@@ -32,7 +32,8 @@ echo "查看 zsh 安装目录："
 which zsh
 
 echo "切换使用的 shell 程序为 zsh："
-chsh -s /usr/bin/zsh
+# 兼容 Debian 和 Ubuntu 的不同路径，使用 $(which zsh) 动态获取路径
+chsh -s $(which zsh)
 
 # 2.4 更改 oh-my-zsh 配置
 echo "================ 2.4 修改 oh-my-zsh 配置 ================"
@@ -43,7 +44,8 @@ sed -i 's/^ZSH_THEME=".*"/ZSH_THEME="pygmalion"/' /root/.zshrc
 
 # 2.4.2 安装插件
 echo "安装 fasd..."
-apt -y install fasd
+# 某些 Debian 版本源中可能没有 fasd，失败则只输出提示不中断流程
+apt -y install fasd || echo "警告: fasd 安装失败，可能是您的系统源中不包含该包，不影响整体流程..."
 
 echo "克隆 zsh-autosuggestions 和 zsh-syntax-highlighting 插件..."
 # 获取 oh-my-zsh 的 custom 目录
