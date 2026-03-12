@@ -15,6 +15,9 @@ fi
 cd /root || { echo "无法切换到 /root 目录"; exit 1; }
 echo "当前目录: $(pwd)"
 
+# 阻止 apt-get/dpkg 安装过程中弹出任何交互式确认对话框（尤其是在 Debian/Ubuntu 的自动安装中）
+export DEBIAN_FRONTEND=noninteractive
+
 # 2.1 更新系统
 echo "================ 2.1 更新系统 ================"
 apt -y update
