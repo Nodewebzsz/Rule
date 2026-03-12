@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # ==============================================================================
-# ubuntu_zsh_setup.sh (同时兼容 Debian)
+# init_zsh_setup.sh (同时兼容 Debian)
 # 该脚本用于在 Ubuntu / Debian 系统下自动化配置 zsh、oh-my-zsh 及相关主题、插件
 # ==============================================================================
 
 # 1. 要求在 root 权限下进行
 if [ "$EUID" -ne 0 ]; then
-  echo "请使用 root 权限运行此脚本 (例如使用: sudo ./ubuntu_zsh_setup.sh，或者直接在 root 账户下执行)"
+  echo "请使用 root 权限运行此脚本 (例如使用: sudo ./init_zsh_setup.sh，或者直接在 root 账户下执行)"
   exit 1
 fi
 
