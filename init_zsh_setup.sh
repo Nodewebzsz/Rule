@@ -46,9 +46,9 @@ echo "更换 ZSH 主题为 pygmalion..."
 sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="pygmalion"/' /root/.zshrc
 
 # 2.4.2 安装插件
-echo "安装 fasd..."
-# 某些 Debian 版本源中可能没有 fasd，失败则只输出提示不中断流程
-apt -y install fasd || echo "警告: fasd 安装失败，可能是您的系统源中不包含该包，不影响整体流程..."
+echo "安装 fasd 和 fzf..."
+# 某些 Debian 版本源中可能没有 fasd 或 fzf，失败则只输出提示不中断流程
+apt -y install fasd fzf || echo "警告: fasd 或 fzf 安装失败，可能是您的系统源中不包含该包，不影响整体流程..."
 
 echo "克隆 zsh-autosuggestions 和 zsh-syntax-highlighting 插件..."
 # 获取 oh-my-zsh 的 custom 目录
@@ -58,7 +58,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}
 
 echo "修改 /root/.zshrc 文件中的 plugins 配置..."
 # 使用单行精确替换默认的 plugins=(git)，避开多行替换在某些 sed 版本上的兼容性问题
-sed -i 's/^plugins=(git)/plugins=(git extract fasd zsh-autosuggestions zsh-syntax-highlighting)/' /root/.zshrc
+sed -i 's/^plugins=(git)/plugins=(git extract fasd fzf zsh-autosuggestions zsh-syntax-highlighting)/' /root/.zshrc
 
 echo "添加快捷 alias 配置..."
 cat << 'EOF' >> /root/.zshrc
@@ -72,6 +72,12 @@ EOF
 # 使之生效：在当前 bash 会话中，只能提醒用户，因为 source ~/.zshrc 需要在 zsh 中运行
 echo "================================================================"
 echo "配置已全部完成！"
+echo ""
+echo "🔥【必备插件指南】🔥"
+echo "1. zsh-autosuggestions: 打字时若出现灰色的历史纪录建议，直接按【向右方向键 →】即可补全整行！"
+echo "2. fzf (必须掌握): 此乃模糊搜索神器。随时按下【Ctrl + R】，会弹出一个交互菜单，输入部分命令字母就能极速找到以前敲过的任意长命令，回车即可加载到输入区跳过繁复打字！"
+echo "3. fasd: 智能目录跳转。在终端输入【z 关键字】即可根据您的历史访问习惯瞬间跳到目标目录（比如输入 z log，它就能猜出你想去 /var/log 并跳转）。"
+echo ""
 echo "为使配置生效，请重新登录vps，或者直接在命令行中输入以下命令："
 echo "zsh"
 echo "进去后可以体验全新的界面了！"
