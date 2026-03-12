@@ -15,6 +15,13 @@ fi
 cd /root || { echo "无法切换到 /root 目录"; exit 1; }
 echo "当前目录: $(pwd)"
 
+# ================= 设置 Hostname =================
+read -r -p "请输入您想设置的主机名 (Hostname) [直接回车默认为: master]: " user_hostname
+user_hostname=${user_hostname:-master}
+echo "正在将主机名设置为: $user_hostname ..."
+hostnamectl set-hostname "$user_hostname"
+# =================================================
+
 # 阻止 apt-get/dpkg 安装过程中弹出任何交互式确认对话框（尤其是在 Debian/Ubuntu 的自动安装中）
 export DEBIAN_FRONTEND=noninteractive
 
@@ -67,6 +74,9 @@ cat << 'EOF' >> /root/.zshrc
 alias vzsh="vim ~/.zshrc"
 alias szsh="source ~/.zshrc"
 alias czsh="cat ~/.zshrc"
+
+# 初始化并全局注册 fasd 的所有快捷映射（如 z=fasd_cd -d）
+eval "$(fasd --init auto)"
 EOF
 
 # 使之生效：在当前 bash 会话中，只能提醒用户，因为 source ~/.zshrc 需要在 zsh 中运行
