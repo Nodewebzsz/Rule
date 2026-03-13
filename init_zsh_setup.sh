@@ -1,14 +1,15 @@
 #!/bin/bash
 
 # ==============================================================================
-# init_zsh_setup.sh (同时兼容 Debian)
-# 该脚本用于在 Ubuntu / Debian 系统下自动化配置 zsh、oh-my-zsh 及相关主题、插件
+# init_zsh_setup.sh (同时兼容 Debian / Ubuntu)
+# 该脚本用于自动化配置 zsh、oh-my-zsh 及相关主题、插件
+# 并在 Ubuntu 24.04 及以上版本自动开启 root 密码登录
 # ==============================================================================
 
 # 1. 要求在 root 权限下进行
 if [ "$EUID" -ne 0 ]; then
-  echo "请使用 root 权限运行此脚本 (例如使用: sudo ./init_zsh_setup.sh，或者直接在 root 账户下执行)"
-  exit 1
+ echo "请使用 root 权限运行此脚本 (例如使用: sudo ./init_zsh_setup.sh，或者直接在 root 账户下执行)"
+ exit 1
 fi
 
 # 切换到 root 根目录
@@ -21,6 +22,42 @@ user_hostname=${user_hostname:-master}
 echo "正在将主机名设置为: $user_hostname ..."
 hostnamectl set-hostname "$user_hostname"
 # =================================================
+
+# ================= 开启 root 密码登录 (仅限 Ubuntu >= 24.04) =================
+if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    if [ "$ID" = "ubuntu" ]; then
+        # 使用 awk 判断版本号是否大于等于 24.04
+        if awk "BEGIN {exit !($VERSION_ID >= 24.04)}"; then
+            echo "================ 检测到 Ubuntu 版本为 $VERSION_ID，正在配置 Root 密码登录 ================"
+            
+            # 1. 修改 root 密码（增加交互式输入）
+            read -r -p "请输入新的 root 密码 [直接回车默认为: zszxc123@]: " user_root_pwd
+            user_root_pwd=${user_root_pwd:-zszxc123@}
+            
+            echo "root:$user_root_pwd" | chpasswd
+            echo "root 密码已修改成功！"
+            
+            # 2. 配置 SSH 允许 root 密码登录与键盘交互式认证
+            mkdir -p /etc/ssh/sshd_config.d
+            # 写入 drop-in 配置确保优先级最高 (Ubuntu 24.04 默认引用该目录)
+            echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/99-allow-root-pass.conf
+            echo "PermitRootLogin yes" >> /etc/ssh/sshd_config.d/99-allow-root-pass.conf
+            echo "KbdInteractiveAuthentication yes" >> /etc/ssh/sshd_config.d/99-allow-root-pass.conf
+            
+            # 替换主配置（兼容和稳妥起见）
+            sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config
+            sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+            sed -i 's/^#\?KbdInteractiveAuthentication.*/KbdInteractiveAuthentication yes/g' /etc/ssh/sshd_config
+            
+            # 3. 重启 SSH 服务生效
+            systemctl restart ssh || systemctl restart sshd
+            echo "SSH 服务已重启，已允许 root 密码登录 (包含 KbdInteractiveAuthentication)！"
+            echo "================================================================================"
+        fi
+    fi
+fi
+# =================================================================================
 
 # 阻止 apt-get/dpkg 安装过程中弹出任何交互式确认对话框（尤其是在 Debian/Ubuntu 的自动安装中）
 export DEBIAN_FRONTEND=noninteractive
