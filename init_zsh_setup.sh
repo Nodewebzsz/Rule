@@ -123,7 +123,8 @@ cat << 'EOF' >> /root/.zshrc
 alias vzsh="vim ~/.zshrc"
 alias szsh="source ~/.zshrc"
 alias czsh="cat ~/.zshrc"
-
+alias cls="clear"
+alias his="history"
 # 将脚本兜底安装的 zoxide 和 git 源码安装的 fzf 可执行文件目录加入 PATH
 export PATH="$HOME/.local/bin:$HOME/.fzf/bin:$PATH"
 
