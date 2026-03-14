@@ -91,13 +91,44 @@ echo "更换 ZSH 主题为 pygmalion..."
 sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="pygmalion"/' /root/.zshrc
 
 # 2.4.2 安装插件
-echo "安装 zoxide 和 fzf..."
-# 优先尝试使用 apt 安装 zoxide 和 fzf
-apt -y install fzf zoxide || {
-    # 如果 apt 安装 zoxide 失败（比如系统源太旧），则使用官方脚本兜底安装
+echo "安装 zoxide 和 fzf(最新源码版)..."
+
+# 1. 优先尝试使用 apt 安装 zoxide（新系统一般都有）
+apt -y install zoxide || {
     echo "警告: apt 安装 zoxide 失败，正在通过官方脚本下载安装 zoxide..."
     curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 }
+
+# 2. 强制使用官方 Git 脚本安装 fzf（避免 apt 源里的版本过老导致 zi 报错）
+if [ ! -d "$HOME/.fzf" ]; then
+    git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+    ~/.fzf/install --all --no-bash --no-fish --key-bindings --completion --update-rc
+fi
+
+echo "克隆 zsh-autosuggestions 和 zsh-syntax-highlighting 插件..."
+# 获取 oh-my-zsh 的 custom 目录
+ZSH_CUSTOM=${ZSH_CUSTOM:-/root/.oh-my-zsh/custom}
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
+
+echo "修改 /root/.zshrc 文件中的 plugins 配置..."
+# 注意：移除了 fzf 插件，因为官方 install 脚本已经配置得很完美了，留着反而会报找不到目录的错
+sed -i 's/^plugins=(git)/plugins=(git extract zsh-autosuggestions zsh-syntax-highlighting)/' /root/.zshrc
+
+echo "添加快捷 alias、环境变量和 zoxide 配置..."
+cat << 'EOF' >> /root/.zshrc
+
+# 自定义 aliases
+alias vzsh="vim ~/.zshrc"
+alias szsh="source ~/.zshrc"
+alias czsh="cat ~/.zshrc"
+
+# 将脚本兜底安装的 zoxide 和 fzf 可执行文件目录加入 PATH
+export PATH="$HOME/.local/bin:$HOME/.fzf/bin:$PATH"
+
+# 初始化并全局注册 zoxide 的智能路径补全
+eval "$(zoxide init zsh)"
+EOF
 
 echo "克隆 zsh-autosuggestions 和 zsh-syntax-highlighting 插件..."
 # 获取 oh-my-zsh 的 custom 目录
