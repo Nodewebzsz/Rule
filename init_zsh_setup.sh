@@ -107,7 +107,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}
 
 echo "修改 /root/.zshrc 文件中的 plugins 配置..."
 # 移除 fasd，替换为新的插件列表
-sed -i 's/^plugins=(git)/plugins=(git extract fzf zsh-autosuggestions zsh-syntax-highlighting)/' /root/.zshrc
+sed -i 's/^plugins=(git)/plugins=(git extract zsh-autosuggestions zsh-syntax-highlighting)/' /root/.zshrc
 
 echo "添加快捷 alias 和 zoxide 配置..."
 cat << 'EOF' >> /root/.zshrc
