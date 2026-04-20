@@ -98,3 +98,58 @@ fi
 
 # 2.4.3 安装并配置 Zsh 插件
 echo "克隆 zsh-autosuggestions 和 zsh-syntax-highlighting 插件..."
+# 获取 oh-my-zsh 的 custom 目录
+ZSH_CUSTOM=${ZSH_CUSTOM:-/root/.oh-my-zsh/custom}
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
+
+echo "修改 /root/.zshrc 文件中的 plugins 配置..."
+# 注意：移除了 fzf 插件，因为官方 install 脚本已完美配置快捷键，保留会报找不到目录的错误
+sed -i 's/^plugins=(git)/plugins=(git extract zsh-autosuggestions zsh-syntax-highlighting)/' /root/.zshrc
+
+echo "添加快捷 alias、环境变量和 zoxide 配置..."
+cat << 'EOF' >> /root/.zshrc
+
+# 自定义 aliases
+alias vzsh="vim ~/.zshrc"
+alias szsh="source ~/.zshrc"
+alias czsh="cat ~/.zshrc"
+alias cls="clear"
+alias his="history"
+# 将脚本兜底安装的 zoxide 和 git 源码安装的 fzf 可执行文件目录加入 PATH
+export PATH="$HOME/.local/bin:$HOME/.fzf/bin:$PATH"
+
+# 初始化并全局注册 zoxide 的智能路径补全
+eval "$(zoxide init zsh)"
+EOF
+
+# ================================================================
+# 终端输出颜色配置
+# ================================================================
+GREEN='\033[1;32m'
+YELLOW='\033[1;33m'
+CYAN='\033[1;36m'
+MAGENTA='\033[1;35m'
+NC='\033[0m' # No Color (恢复默认)
+
+echo -e "\n${GREEN}================================================================${NC}"
+echo -e "${GREEN}🎉 配置已全部完成！${NC}\n"
+
+echo -e "${YELLOW}🔥【必备插件指南】🔥${NC}"
+echo -e "${CYAN}1. zsh-autosuggestions:${NC} 打字时若出现灰色的历史纪录建议，直接按 ${YELLOW}【向右方向键 →】${NC} 即可补全整行！"
+echo -e "${CYAN}2. fzf (必须掌握):${NC} 此乃模糊搜索神器。随时按下 ${YELLOW}【Ctrl + R】${NC}，会弹出一个交互菜单，输入部分命令字母就能极速找到以前敲过的任意长命令，回车即可加载到输入区跳过繁复打字！"
+echo -e "${CYAN}3. zoxide (新一代目录跳转神器):${NC} 完全替代 fasd。在终端输入 ${YELLOW}【z 关键字】${NC} 即可根据历史访问习惯瞬间跳到目标目录（例如输入 ${YELLOW}z log${NC}，就能跳到 /var/log）。配合 fzf 还可以输入 ${YELLOW}【zi】${NC} 开启可视化交互跳转！\n"
+
+# 输出默认出口网卡（例如 enp0s6）
+default_net_if=$(ip route get 1.1.1.1 2>/dev/null | awk '{for(i=1;i<=NF;i++) if($i=="dev"){print $(i+1); exit}}')
+if [ -n "$default_net_if" ]; then
+  echo -e "${CYAN}🌐 当前默认出口网卡: ${YELLOW}${default_net_if}${NC}"
+else
+  echo -e "${YELLOW}⚠️ 未检测到默认出口网卡，可手动执行: ip route get 1.1.1.1${NC}"
+fi
+
+
+echo -e "${GREEN}💡 为使配置生效，请重新登录 VPS，或者直接在命令行中输入以下命令：${NC}"
+echo -e "${MAGENTA}  exec zsh${NC}"
+echo -e "\n进去后即可体验全新的极速终端界面！"
+echo -e "${GREEN}================================================================${NC}"
