@@ -373,6 +373,25 @@ setup_xboard_forward() {
   echo "xboard 端口转发设置已完成。"
 }
 
+bbr_on() {
+  echo "正在开启 BBR..."
+
+  # 参考 kejilion: 统一写入 sysctl.d，避免和其他调优项冲突
+  local conf="/etc/sysctl.d/99-zsz-bbr.conf"
+  mkdir -p /etc/sysctl.d
+  echo "net.core.default_qdisc=fq" > "$conf"
+  echo "net.ipv4.tcp_congestion_control=bbr" >> "$conf"
+
+  # 清理旧 sysctl.conf 中可能冲突的残留
+  sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf 2>/dev/null || true
+  sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf 2>/dev/null || true
+
+  sysctl -p "$conf" >/dev/null 2>&1 || sysctl --system >/dev/null 2>&1
+
+  echo "BBR 设置完成。当前内核拥塞控制: $(sysctl -n net.ipv4.tcp_congestion_control 2>/dev/null)"
+  echo "当前队列算法: $(sysctl -n net.core.default_qdisc 2>/dev/null)"
+}
+
 show_zsz_menu() {
   while true; do
     clear
@@ -381,6 +400,7 @@ show_zsz_menu() {
     echo "2. 安装/更新 Docker 与 Docker Compose"
     echo "3. 输出默认出口网卡"
     echo "4. xboard 端口转发设置"
+    echo "5. 开启 BBR"
     echo "0. 退出"
     echo "=============================================="
     read -r -p "请输入你的选择: " sub_choice
@@ -397,6 +417,9 @@ show_zsz_menu() {
         ;;
       4)
         setup_xboard_forward
+        ;;
+      5)
+        bbr_on
         ;;
       0)
         exit 0
