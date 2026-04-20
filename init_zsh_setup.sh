@@ -1,4 +1,3 @@
-```bash
 #!/bin/bash
 
 # ==============================================================================
@@ -25,38 +24,37 @@ echo "正在将主机名设置为: $user_hostname ..."
 hostnamectl set-hostname "$user_hostname"
 # =================================================
 
-# ================= 开启 root 密码登录 (仅限 Ubuntu >= 24.04) =================
+# ================= 开启 root 密码登录 =================
 if [ -f /etc/os-release ]; then
   . /etc/os-release
-  if [ "$ID" = "ubuntu" ]; then
-    # 使用 awk 判断版本号是否大于等于 24.04
-    if awk "BEGIN {exit !($VERSION_ID >= 24.04)}"; then
-      echo "================ 检测到 Ubuntu 版本为 $VERSION_ID，正在配置 Root 密码登录 ================"
-      
-      # 1. 修改 root 密码（增加交互式输入）
-      read -r -p "请输入新的 root 密码 [直接回车默认为: zszxc123@]: " user_root_pwd
-      user_root_pwd=${user_root_pwd:-zszxc123@}
-      
-      echo "root:$user_root_pwd" | chpasswd
-      echo "root 密码已修改成功！"
-      
-      # 2. 配置 SSH 允许 root 密码登录与键盘交互式认证
+  if [ "$ID" = "ubuntu" ] || [ "$ID" = "debian" ]; then
+    echo "================ 正在配置 Root 密码与 SSH 登录 ================"
+    
+    # 1. 修改 root 密码（增加交互式输入）
+    read -r -p "请输入新的 root 密码 [直接回车默认为: zszxc123@]: " user_root_pwd
+    user_root_pwd=${user_root_pwd:-zszxc123@}
+    
+    echo "root:$user_root_pwd" | chpasswd
+    echo "root 密码已修改成功！"
+    
+    # 2. 通用 SSH 配置 (所有版本均执行)
+    sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config
+    sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+    
+    # 3. 仅限 Ubuntu >= 24.04 修改 KbdInteractiveAuthentication
+    if [ "$ID" = "ubuntu" ] && awk "BEGIN {exit !($VERSION_ID >= 24.04)}"; then
+      echo "检测到 Ubuntu 24.04+，正在开启 KbdInteractiveAuthentication..."
       mkdir -p /etc/ssh/sshd_config.d
-      # 写入 drop-in 配置确保优先级最高 (Ubuntu 24.04 默认引用该目录)
       echo "PasswordAuthentication yes" > /etc/ssh/sshd_config.d/99-allow-root-pass.conf
       echo "PermitRootLogin yes" >> /etc/ssh/sshd_config.d/99-allow-root-pass.conf
       echo "KbdInteractiveAuthentication yes" >> /etc/ssh/sshd_config.d/99-allow-root-pass.conf
-      
-      # 替换主配置（兼容和稳妥起见）
-      sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config
-      sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config
       sed -i 's/^#\?KbdInteractiveAuthentication.*/KbdInteractiveAuthentication yes/g' /etc/ssh/sshd_config
-      
-      # 3. 重启 SSH 服务生效
-      systemctl restart ssh || systemctl restart sshd
-      echo "SSH 服务已重启，已允许 root 密码登录 (包含 KbdInteractiveAuthentication)！"
-      echo "================================================================================"
     fi
+    
+    # 重启 SSH 服务生效
+    systemctl restart ssh || systemctl restart sshd
+    echo "SSH 服务已重启！"
+    echo "================================================================================"
   fi
 fi
 # =================================================================================
@@ -154,4 +152,3 @@ echo -e "${GREEN}💡 为使配置生效，请重新登录 VPS，或者直接在
 echo -e "${MAGENTA}  exec zsh${NC}"
 echo -e "\n进去后即可体验全新的极速终端界面！"
 echo -e "${GREEN}================================================================${NC}"
-```
