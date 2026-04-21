@@ -338,6 +338,7 @@ setup_xboard_forward() {
   echo "正在执行 xboard 端口转发设置..."
 
   # 清除防火墙
+  echo "正在执行 清除防火墙"
   /bin/systemctl stop firewalld.service >/dev/null 2>&1 || true
   /bin/systemctl disable firewalld.service >/dev/null 2>&1 || true
   setenforce 0 >/dev/null 2>&1 || true
@@ -350,11 +351,13 @@ setup_xboard_forward() {
   iptables -X >/dev/null 2>&1 || true
 
   # xboard 端口转发（避免重复追加）
+  echo "xboard 端口转发"
   if ! iptables -t nat -C PREROUTING -p udp --dport 50000:65535 -j DNAT --to-destination :8899 >/dev/null 2>&1; then
     iptables -t nat -A PREROUTING -p udp --dport 50000:65535 -j DNAT --to-destination :8899
   fi
 
   # 规则持久化：未安装 netfilter-persistent 时自动安装
+  echo "规则持久化"
   if ! command -v netfilter-persistent >/dev/null 2>&1; then
     echo "检测到 netfilter-persistent 未安装，正在安装..."
     if command -v apt >/dev/null 2>&1; then
