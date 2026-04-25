@@ -56,6 +56,16 @@ fi
 # 阻止 apt-get/dpkg 安装过程中弹出任何交互式确认对话框（尤其是在 Debian/Ubuntu 的自动安装中）
 export DEBIAN_FRONTEND=noninteractive
 
+# === 新增：设置时区 ===
+echo "================ 正在设置系统时区为上海 ================"
+ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+echo "Asia/Shanghai" > /etc/timezone
+if command -v timedatectl >/dev/null 2>&1; then
+  timedatectl set-timezone Asia/Shanghai
+fi
+echo "当前系统时间: $(date)"
+# =====================
+
 # 2.1 更新系统
 echo "================ 2.1 更新系统 ================"
 apt -y update
