@@ -90,6 +90,7 @@ alias vzsh="vim ~/.zshrc"
 alias szsh="source ~/.zshrc"
 alias czsh="cat ~/.zshrc"
 alias cls="clear"
+alias his="history"
 export PATH="$HOME/.local/bin:$HOME/.fzf/bin:$PATH"
 eval "$(zoxide init zsh)"
 EOF
