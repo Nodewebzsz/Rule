@@ -88,6 +88,7 @@ if ! grep -q "zoxide init" /root/.zshrc; then
 cat << 'EOF' >> /root/.zshrc
 alias vzsh="vim ~/.zshrc"
 alias szsh="source ~/.zshrc"
+alias czsh="cat ~/.zshrc"
 alias cls="clear"
 export PATH="$HOME/.local/bin:$HOME/.fzf/bin:$PATH"
 eval "$(zoxide init zsh)"
