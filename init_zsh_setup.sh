@@ -404,16 +404,20 @@ pause_or_exit() {
 show_zsz_menu() {
   while true; do
     clear
-    echo -e "${gl_kjlan}================ zsz 工具菜单 ================${gl_bai}"
-    echo -e "${gl_huang}1.${gl_bai} 执行 init_zsh_setup 主流程 (重置/修复配置)"
-    echo -e "${gl_huang}2.${gl_bai} 安装/更新 Docker 与 Docker Compose"
-    echo -e "${gl_huang}3.${gl_bai} 输出默认出口网卡"
-    echo -e "${gl_huang}4.${gl_bai} xboard 端口转发设置"
-    echo -e "${gl_huang}5.${gl_bai} 开启 BBR"
-    echo -e "${gl_huang}6.${gl_bai} 关闭并清除防火墙规则"
-    echo -e "${gl_huang}7.${gl_bai} 🔄 更新此脚本 (Update Script)"
-    echo -e "${gl_huang}0.${gl_bai} 退出"
-    echo -e "${gl_kjlan}===============================================${gl_bai}"
+    echo -e "${gl_kjlan}╔════════════════════════════════════════════════════╗${gl_bai}"
+    echo -e "${gl_kjlan}║${gl_bai}              ${gl_huang}zsz 工具菜单${gl_bai}  ${gl_hui}v${SCRIPT_VERSION}${gl_bai}              ${gl_kjlan}║${gl_bai}"
+    echo -e "${gl_kjlan}╠════════════════════════════════════════════════════╣${gl_bai}"
+    echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}1.${gl_bai} 初始化主流程             ${gl_hui}重置/修复 zsh 环境${gl_bai} ${gl_kjlan}║${gl_bai}"
+    echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}2.${gl_bai} Docker 环境              ${gl_hui}安装/更新 Compose${gl_bai} ${gl_kjlan}║${gl_bai}"
+    echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}3.${gl_bai} 默认出口网卡             ${gl_hui}查看当前路由出口${gl_bai} ${gl_kjlan}║${gl_bai}"
+    echo -e "${gl_kjlan}╠════════════════════════════════════════════════════╣${gl_bai}"
+    echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}4.${gl_bai} xboard 端口转发          ${gl_hui}UDP 50000-65535 → 8899${gl_bai} ${gl_kjlan}║${gl_bai}"
+    echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}5.${gl_bai} BBR 加速                 ${gl_hui}开启/检查 TCP BBR${gl_bai} ${gl_kjlan}║${gl_bai}"
+    echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}6.${gl_bai} 清除防火墙规则           ${gl_hui}关闭 ufw/firewalld${gl_bai} ${gl_kjlan}║${gl_bai}"
+    echo -e "${gl_kjlan}╠════════════════════════════════════════════════════╣${gl_bai}"
+    echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}7.${gl_bai} 更新脚本                 ${gl_hui}拉取远程最新版${gl_bai} ${gl_kjlan}║${gl_bai}"
+    echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}0.${gl_bai} 退出                     ${gl_hui}或按 ESC 退出${gl_bai} ${gl_kjlan}║${gl_bai}"
+    echo -e "${gl_kjlan}╚════════════════════════════════════════════════════╝${gl_bai}"
     echo -ne "${gl_huang}请输入选择，或按 ESC 退出: ${gl_bai}"
     IFS= read -rsn1 sub_choice
     echo
