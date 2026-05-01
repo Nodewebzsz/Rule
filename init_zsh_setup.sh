@@ -422,7 +422,7 @@ show_zsz_menu() {
       3)
         ip route get 1.1.1.1
         action_status=$?
-        action_message="默认出口网卡查询完成zsz"
+        action_message="默认出口网卡查询完成"
         ;;
       4)
         setup_xboard_forward
