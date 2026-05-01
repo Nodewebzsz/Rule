@@ -187,8 +187,15 @@ update_self() {
     echo -e "${gl_kjlan}正在从远程获取最新版本...${gl_bai}"
     tmp_file=$(mktemp)
     tmp_menu=$(mktemp)
-    if curl -fsSL "${SCRIPT_URL}?t=$(date +%s)" -o "$tmp_file"; then
+    if curl -fsSL \
+        -H "Cache-Control: no-cache" \
+        -H "Pragma: no-cache" \
+        "${SCRIPT_URL}?t=$(date +%s)" -o "$tmp_file"; then
         if grep -q "#!/bin/bash" "$tmp_file"; then
+            remote_menu_tip=$(grep -m1 'action_message="默认出口网卡查询完成' "$tmp_file" 2>/dev/null | sed 's/^[[:space:]]*//')
+            if [ -n "$remote_menu_tip" ]; then
+                echo -e "${gl_huang}远程脚本菜单文案: ${remote_menu_tip}${gl_bai}"
+            fi
             mv "$tmp_file" "$INIT_SCRIPT_PATH"
             chmod +x "$INIT_SCRIPT_PATH"
             echo -e "${gl_lv}脚本更新成功！正在重新安装菜单以应用更改...${gl_bai}"
