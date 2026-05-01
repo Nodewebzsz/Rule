@@ -187,7 +187,7 @@ update_self() {
     echo -e "${gl_kjlan}正在从远程获取最新版本...${gl_bai}"
     tmp_file=$(mktemp)
     tmp_menu=$(mktemp)
-    if curl -sSL "$SCRIPT_URL" -o "$tmp_file"; then
+    if curl -fsSL "${SCRIPT_URL}?t=$(date +%s)" -o "$tmp_file"; then
         if grep -q "#!/bin/bash" "$tmp_file"; then
             mv "$tmp_file" "$INIT_SCRIPT_PATH"
             chmod +x "$INIT_SCRIPT_PATH"
@@ -197,8 +197,8 @@ update_self() {
                 sed -i "s|__INIT_SCRIPT_PATH__|${escaped_path}|g" "$tmp_menu"
                 chmod +x "$tmp_menu"
                 mv "$tmp_menu" /usr/local/bin/zsz
-                echo -e "${gl_lv}菜单更新完成，已返回菜单。${gl_bai}"
-                return 0
+                echo -e "${gl_lv}菜单更新完成，正在载入新版菜单...${gl_bai}"
+                exec /usr/local/bin/zsz
             fi
             rm -f "$tmp_menu"
             echo -e "${gl_hong}菜单重装失败，请手动执行: bash $INIT_SCRIPT_PATH${gl_bai}"
