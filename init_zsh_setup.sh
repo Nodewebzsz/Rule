@@ -5,7 +5,7 @@
 # 自动化配置 zsh、时区、Docker、BBR 及 zsz 管理菜单
 # ==============================================================================
 
-SCRIPT_VERSION="1.1.0"
+SCRIPT_VERSION="1.1.1"
 
 gl_hui='\033[37m'
 gl_hong='\033[31m'
@@ -167,7 +167,7 @@ fi
 cat > /usr/local/bin/zsz <<'EOF'
 #!/bin/bash
 # 菜单脚本
-SCRIPT_VERSION="1.1.0"
+SCRIPT_VERSION="1.1.1"
 SCRIPT_URL="https://raw.githubusercontent.com/Nodewebzsz/Rule/refs/heads/main/init_zsh_setup.sh"
 INIT_SCRIPT_PATH="__INIT_SCRIPT_PATH__"
 
@@ -201,25 +201,25 @@ update_self() {
             echo -e "${gl_kjlan}当前版本: ${gl_huang}v${current_version}${gl_bai}    ${gl_kjlan}远程版本: ${gl_huang}v${remote_version}${gl_bai}"
 
             if [ "$remote_version" != "unknown" ] && [ "$remote_version" = "$current_version" ]; then
-                echo -e "${gl_lv}当前脚本已是最新版本，无需更新。${gl_bai}"
+                echo -e "${gl_lv}当前脚本已是最新版本，无需更新。🎉${gl_bai}"
                 rm -f "$tmp_file" "$tmp_menu"
                 return 0
             fi
             if [ -f "$INIT_SCRIPT_PATH" ] && cmp -s "$tmp_file" "$INIT_SCRIPT_PATH"; then
-                echo -e "${gl_lv}远程脚本内容与本地一致，无需更新。${gl_bai}"
+                echo -e "${gl_lv}远程脚本内容与本地一致，无需更新。🎉${gl_bai}"
                 rm -f "$tmp_file" "$tmp_menu"
                 return 0
             fi
             echo -e "${gl_huang}发现新版本，开始更新...${gl_bai}"
             mv "$tmp_file" "$INIT_SCRIPT_PATH"
             chmod +x "$INIT_SCRIPT_PATH"
-            echo -e "${gl_lv}脚本更新成功！正在重新安装菜单以应用更改...${gl_bai}"
+            echo -e "${gl_lv}脚本更新成功！正在重新安装菜单以应用更改...🎉${gl_bai}"
             if awk 'found && $0 == "EOF" { exit } found { print } index($0, "cat > /usr/local/bin/zsz <<") == 1 { found=1 }' "$INIT_SCRIPT_PATH" > "$tmp_menu" && [ -s "$tmp_menu" ]; then
                 escaped_path=$(printf '%s\n' "$INIT_SCRIPT_PATH" | sed 's/[\/&]/\\&/g')
                 sed -i "s|__INIT_SCRIPT_PATH__|${escaped_path}|g" "$tmp_menu"
                 chmod +x "$tmp_menu"
                 mv "$tmp_menu" /usr/local/bin/zsz
-                echo -e "${gl_lv}菜单更新完成，正在载入新版菜单...${gl_bai}"
+                echo -e "${gl_lv}菜单更新完成，正在载入新版菜单...🎉${gl_bai}"
                 echo -ne "${gl_huang}按任意键继续载入新版菜单，按 ESC 退出...${gl_bai}"
                 IFS= read -rsn1 reload_key
                 echo
@@ -241,7 +241,7 @@ update_self() {
 install_add_docker() {
     if command -v docker >/dev/null 2>&1; then
         if docker compose version >/dev/null 2>&1 || command -v docker-compose >/dev/null 2>&1; then
-            echo -e "${gl_lv}Docker 与 Docker Compose 已安装，跳过重复安装流程。${gl_bai}"
+            echo -e "${gl_lv}Docker 与 Docker Compose 已安装，跳过重复安装流程。🎉${gl_bai}"
             docker --version 2>/dev/null
             docker compose version 2>/dev/null || docker-compose --version 2>/dev/null
             return 0
@@ -272,7 +272,7 @@ ensure_netfilter_persistent() {
 
 setup_xboard_forward() {
     if iptables -t nat -C PREROUTING -p udp --dport 50000:65535 -j DNAT --to-destination :8899 >/dev/null 2>&1; then
-        echo -e "${gl_lv}xboard 端口转发规则已存在，跳过重复设置。${gl_bai}"
+        echo -e "${gl_lv}xboard 端口转发规则已存在，跳过重复设置。🎉${gl_bai}"
         return 0
     fi
 
@@ -282,7 +282,7 @@ setup_xboard_forward() {
     if command -v netfilter-persistent >/dev/null 2>&1; then
         netfilter-persistent save
     fi
-    echo -e "${gl_lv}xboard 端口转发设置完成。${gl_bai}"
+    echo -e "${gl_lv}xboard 端口转发设置完成。🎉${gl_bai}"
 }
 
 firewall_rules_already_clear() {
@@ -307,7 +307,7 @@ firewall_rules_already_clear() {
 
 clear_firewall_rules() {
     if firewall_rules_already_clear; then
-        echo -e "${gl_lv}防火墙已关闭，iptables 规则已清空，跳过重复清理。${gl_bai}"
+        echo -e "${gl_lv}防火墙已关闭，iptables 规则已清空，跳过重复清理。🎉${gl_bai}"
         return 0
     fi
 
@@ -329,14 +329,14 @@ clear_firewall_rules() {
     if command -v netfilter-persistent >/dev/null 2>&1; then
         netfilter-persistent save >/dev/null 2>&1
     fi
-    echo -e "${gl_lv}防火墙关闭与 iptables 规则清理完成。${gl_bai}"
+    echo -e "${gl_lv}防火墙关闭与 iptables 规则清理完成。🎉${gl_bai}"
 }
 
 bbr_on() {
     current_qdisc=$(sysctl -n net.core.default_qdisc 2>/dev/null)
     current_cc=$(sysctl -n net.ipv4.tcp_congestion_control 2>/dev/null)
     if [ "$current_qdisc" = "fq" ] && [ "$current_cc" = "bbr" ]; then
-        echo -e "${gl_lv}BBR 已开启，跳过重复设置。${gl_bai}"
+        echo -e "${gl_lv}BBR 已开启，跳过重复设置。🎉${gl_bai}"
         return 0
     fi
 
@@ -374,7 +374,7 @@ bbr_on() {
     if sysctl -p "$local_conf" >/dev/null 2>&1 || sysctl --system >/dev/null 2>&1; then
         current_qdisc=$(sysctl -n net.core.default_qdisc 2>/dev/null)
         current_cc=$(sysctl -n net.ipv4.tcp_congestion_control 2>/dev/null)
-        echo -e "${gl_lv}BBR 设置完成，当前状态: ${gl_huang}$current_cc $current_qdisc${gl_bai}"
+        echo -e "${gl_lv}BBR 设置完成，当前状态: ${gl_huang}$current_cc $current_qdisc ${gl_lv}🎉${gl_bai}"
         return 0
     fi
 
@@ -387,7 +387,7 @@ pause_or_exit() {
     action_message=${2:-"菜单功能执行完成。"}
     echo
     if [ "$action_status" -eq 0 ]; then
-        echo -e "${gl_lv}${action_message}${gl_bai}"
+        echo -e "${gl_lv}${action_message}🎉${gl_bai}"
     else
         echo -e "${gl_hong}${action_message}${gl_bai}"
         echo -e "${gl_huang}请查看上方输出，确认失败原因后再重试。${gl_bai}"
