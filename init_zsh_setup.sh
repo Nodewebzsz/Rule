@@ -192,9 +192,10 @@ update_self() {
         -H "Pragma: no-cache" \
         "${SCRIPT_URL}?t=$(date +%s)" -o "$tmp_file"; then
         if grep -q "#!/bin/bash" "$tmp_file"; then
-            remote_menu_tip=$(grep -m1 'action_message="默认出口网卡查询完成' "$tmp_file" 2>/dev/null | sed 's/^[[:space:]]*//')
-            if [ -n "$remote_menu_tip" ]; then
-                echo -e "${gl_huang}远程脚本菜单文案: ${remote_menu_tip}${gl_bai}"
+            if [ -f "$INIT_SCRIPT_PATH" ] && cmp -s "$tmp_file" "$INIT_SCRIPT_PATH"; then
+                echo -e "${gl_lv}当前脚本已是最新版本，无需更新。${gl_bai}"
+                rm -f "$tmp_file" "$tmp_menu"
+                return 0
             fi
             mv "$tmp_file" "$INIT_SCRIPT_PATH"
             chmod +x "$INIT_SCRIPT_PATH"
@@ -205,6 +206,12 @@ update_self() {
                 chmod +x "$tmp_menu"
                 mv "$tmp_menu" /usr/local/bin/zsz
                 echo -e "${gl_lv}菜单更新完成，正在载入新版菜单...${gl_bai}"
+                echo -ne "${gl_huang}按任意键继续载入新版菜单，按 ESC 退出...${gl_bai}"
+                IFS= read -rsn1 reload_key
+                echo
+                if [ "$reload_key" = $'\e' ]; then
+                    exit 0
+                fi
                 exec /usr/local/bin/zsz
             fi
             rm -f "$tmp_menu"
@@ -415,7 +422,7 @@ show_zsz_menu() {
       3)
         ip route get 1.1.1.1
         action_status=$?
-        action_message="默认出口网卡查询完成"
+        action_message="默认出口网卡查询完成zsz"
         ;;
       4)
         setup_xboard_forward
