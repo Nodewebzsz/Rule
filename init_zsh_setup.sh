@@ -5,6 +5,8 @@
 # 自动化配置 zsh、时区、Docker、BBR 及 zsz 管理菜单
 # ==============================================================================
 
+SCRIPT_VERSION="1.1.0"
+
 gl_hui='\033[37m'
 gl_hong='\033[31m'
 gl_lv='\033[32m'
@@ -165,6 +167,7 @@ fi
 cat > /usr/local/bin/zsz <<'EOF'
 #!/bin/bash
 # 菜单脚本
+SCRIPT_VERSION="1.1.0"
 SCRIPT_URL="https://raw.githubusercontent.com/Nodewebzsz/Rule/refs/heads/main/init_zsh_setup.sh"
 INIT_SCRIPT_PATH="__INIT_SCRIPT_PATH__"
 
@@ -192,11 +195,22 @@ update_self() {
         -H "Pragma: no-cache" \
         "${SCRIPT_URL}?t=$(date +%s)" -o "$tmp_file"; then
         if grep -q "#!/bin/bash" "$tmp_file"; then
-            if [ -f "$INIT_SCRIPT_PATH" ] && cmp -s "$tmp_file" "$INIT_SCRIPT_PATH"; then
+            remote_version=$(grep -m1 '^SCRIPT_VERSION=' "$tmp_file" 2>/dev/null | cut -d '"' -f 2)
+            current_version="$SCRIPT_VERSION"
+            [ -z "$remote_version" ] && remote_version="unknown"
+            echo -e "${gl_kjlan}当前版本: ${gl_huang}v${current_version}${gl_bai}    ${gl_kjlan}远程版本: ${gl_huang}v${remote_version}${gl_bai}"
+
+            if [ "$remote_version" != "unknown" ] && [ "$remote_version" = "$current_version" ]; then
                 echo -e "${gl_lv}当前脚本已是最新版本，无需更新。${gl_bai}"
                 rm -f "$tmp_file" "$tmp_menu"
                 return 0
             fi
+            if [ -f "$INIT_SCRIPT_PATH" ] && cmp -s "$tmp_file" "$INIT_SCRIPT_PATH"; then
+                echo -e "${gl_lv}远程脚本内容与本地一致，无需更新。${gl_bai}"
+                rm -f "$tmp_file" "$tmp_menu"
+                return 0
+            fi
+            echo -e "${gl_huang}发现新版本，开始更新...${gl_bai}"
             mv "$tmp_file" "$INIT_SCRIPT_PATH"
             chmod +x "$INIT_SCRIPT_PATH"
             echo -e "${gl_lv}脚本更新成功！正在重新安装菜单以应用更改...${gl_bai}"
