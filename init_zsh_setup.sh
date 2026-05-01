@@ -355,8 +355,15 @@ bbr_on() {
 }
 
 pause_or_exit() {
+    action_status=${1:-0}
+    action_message=${2:-"菜单功能执行完成。"}
     echo
-    echo -e "${gl_lv}操作完成${gl_bai}"
+    if [ "$action_status" -eq 0 ]; then
+        echo -e "${gl_lv}${action_message}${gl_bai}"
+    else
+        echo -e "${gl_hong}${action_message}${gl_bai}"
+        echo -e "${gl_huang}请查看上方输出，确认失败原因后再重试。${gl_bai}"
+    fi
     echo -ne "${gl_huang}按任意键返回菜单，按 ESC 退出...${gl_bai}"
     IFS= read -rsn1 key
     echo
@@ -385,18 +392,51 @@ show_zsz_menu() {
     if [ "$sub_choice" = $'\e' ]; then
       exit 0
     fi
+    action_status=0
+    action_message="菜单功能执行完成。"
     case "$sub_choice" in
-      1) bash "$INIT_SCRIPT_PATH" ;;
-      2) install_add_docker ;;
-      3) ip route get 1.1.1.1 ;;
-      4) setup_xboard_forward ;;
-      5) bbr_on ;;
-      6) clear_firewall_rules ;;
-      7) update_self ;;
+      1)
+        bash "$INIT_SCRIPT_PATH"
+        action_status=$?
+        action_message="init_zsh_setup 主流程执行完成。"
+        ;;
+      2)
+        install_add_docker
+        action_status=$?
+        action_message="Docker 与 Docker Compose 安装/检查流程完成。"
+        ;;
+      3)
+        ip route get 1.1.1.1
+        action_status=$?
+        action_message="默认出口网卡查询完成。"
+        ;;
+      4)
+        setup_xboard_forward
+        action_status=$?
+        action_message="xboard 端口转发设置/检查流程完成。"
+        ;;
+      5)
+        bbr_on
+        action_status=$?
+        action_message="BBR 开启/检查流程完成。"
+        ;;
+      6)
+        clear_firewall_rules
+        action_status=$?
+        action_message="防火墙关闭与 iptables 清理流程完成。"
+        ;;
+      7)
+        update_self
+        action_status=$?
+        action_message="脚本更新流程完成；重新打开 zsz 可加载最新菜单脚本。"
+        ;;
       0) exit 0 ;;
-      *) echo -e "${gl_hong}无效选择，请重新输入。${gl_bai}" ;;
+      *)
+        action_status=1
+        action_message="无效选择，请输入菜单中的编号。"
+        ;;
     esac
-    pause_or_exit
+    pause_or_exit "$action_status" "$action_message"
   done
 }
 show_zsz_menu
