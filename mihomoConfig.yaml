@@ -1,15 +1,17 @@
+# 锚点
 pr: &pr {type: select, proxies: [🚀 节点选择, ♻️ 香港自动, ♻️ 日本自动, ♻️ 新加坡自动, ♻️ 美国自动, ♻️ 德国自动, ♻️ 英国自动, ♻️ 韩国自动, ♻️ 加拿大自动, ♻️ 自动选择, 🇭🇰 香港节点, 🇯🇵 日本节点, 🇸🇬 新加坡节点, 🇺🇲 美国节点, 🇩🇪 德国节点, 🇬🇧 英国节点, 🇰🇷 韩国节点, 🇨🇦 加拿大节点, 🌐 全部节点, ⭕ 自建节点, 🟢 直连]}
 
 proxy-providers:
   Xboard:
     type: http
     interval: 1800
+    path: ./providers/Xboard.yaml
     health-check:
       enable: true
       url: https://www.gstatic.com/generate_204
       interval: 300
-    proxy: 🟢 直连
-    url: "这里填你的新 Xboard 订阅链接"
+    proxy: 🚀 节点选择
+    url: "这里填你的 Xboard 订阅链接"
     override:
       skip-cert-verify: true
       udp: true
@@ -19,12 +21,13 @@ proxy-providers:
   gitlab:
     type: http
     interval: 1800
+    path: ./providers/gitlab.yaml
     health-check:
       enable: true
       url: https://www.gstatic.com/generate_204
       interval: 300
-    proxy: 🟢 直连
-    url: "这里填你的新 gitlab 订阅链接"
+    proxy: 🚀 节点选择
+    url: "这里填你的 gitlab ClashMeta 订阅链接"
     override:
       skip-cert-verify: true
       udp: true
@@ -42,9 +45,10 @@ ipv6: false
 allow-lan: true
 unified-delay: true
 tcp-concurrent: true
+log-level: warning
 
 authentication:
-  - zszweb:这里换成一个长随机密码
+  - "zszweb:这里换成新密码"
 
 geodata-mode: false
 geodata-loader: standard
@@ -57,7 +61,7 @@ geox-url:
   geoip: "https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip-lite.dat"
   asn: "https://mirror.ghproxy.com/https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb"
 
-external-controller: 127.0.0.1:9090
+external-controller: 0.0.0.0:9090
 secret: "这里换成一个长随机密码"
 external-ui: ui
 external-ui-url: "https://mirror.ghproxy.com/https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip"
@@ -142,6 +146,7 @@ proxy-groups:
   - {name: 🍀 Google, <<: *pr}
   - {name: 🤖 ChatGPT, <<: *pr}
   - {name: 👨🏿‍💻 GitHub, <<: *pr}
+  - {name: 🧰 开发服务, <<: *pr}
   - {name: 🐬 OneDrive, <<: *pr}
   - {name: 🪟 Microsoft, <<: *pr}
   - {name: 🎵 TikTok, <<: *pr}
@@ -150,6 +155,7 @@ proxy-groups:
   - {name: ✈️ Speedtest, <<: *pr}
   - {name: 💶 PayPal, <<: *pr}
 
+  - {name: 🛑 广告拦截, type: select, proxies: [REJECT, 🟢 直连]}
   - {name: 🍎 Apple, type: select, proxies: [🟢 直连, 🚀 节点选择], url: http://connect.rom.miui.com/generate_204}
   - {name: 🎯 全球直连, type: select, proxies: [🟢 直连, 🚀 节点选择], url: http://connect.rom.miui.com/generate_204}
   - {name: 🐟 漏网之鱼, <<: *pr}
@@ -166,7 +172,6 @@ proxy-groups:
 
   - {name: 🔊 googlVoiceProxy, type: select, include-all: true, filter: "(?i)google-us|gcp-us"}
   - {name: 📱 talktoneProxy, type: select, include-all: true, filter: "(?i)google-us|gcp-us"}
-
   - {name: 💳 bitgetProxy, type: select, proxies: [♻️ 日本自动, ♻️ 韩国自动, ♻️ 美国自动, 🇯🇵 日本节点, 🇰🇷 韩国节点, 🇺🇲 美国节点]}
 
   - {name: ♻️ 香港自动, type: url-test, include-all: true, tolerance: 20, interval: 300, filter: "(?i)港|香港|hk|hongkong|hong kong", url: https://www.gstatic.com/generate_204}
@@ -182,8 +187,28 @@ proxy-groups:
   - {name: 🌐 全部节点, type: select, include-all: true}
 
 rules:
+  - IP-CIDR,10.0.0.0/8,🟢 直连,no-resolve
+  - IP-CIDR,172.16.0.0/12,🟢 直连,no-resolve
+  - IP-CIDR,192.168.0.0/16,🟢 直连,no-resolve
+  - IP-CIDR,127.0.0.0/8,🟢 直连,no-resolve
+
   - RULE-SET,private_domain,🟢 直连
   - RULE-SET,direct1,🟢 直连
+
+  - RULE-SET,ads_domain,🛑 广告拦截
+
+  - DOMAIN-SUFFIX,alicdn.com,🎯 全球直连
+  - DOMAIN-SUFFIX,aliyuncs.com,🎯 全球直连
+  - DOMAIN-SUFFIX,qq.com,🎯 全球直连
+  - DOMAIN-SUFFIX,weixin.qq.com,🎯 全球直连
+  - DOMAIN-SUFFIX,bdstatic.com,🎯 全球直连
+  - DOMAIN-SUFFIX,baidu.com,🎯 全球直连
+  - DOMAIN-SUFFIX,taobao.com,🎯 全球直连
+  - DOMAIN-SUFFIX,tmall.com,🎯 全球直连
+  - DOMAIN-SUFFIX,jd.com,🎯 全球直连
+  - DOMAIN-SUFFIX,bilibili.com,🎯 全球直连
+  - DOMAIN-SUFFIX,douyin.com,🎯 全球直连
+
   - RULE-SET,apple_domain,🍎 Apple
   - RULE-SET,proxylite,🚀 节点选择
 
@@ -198,7 +223,13 @@ rules:
   - DOMAIN-KEYWORD,wise,🇨🇦 加拿大节点
 
   - RULE-SET,ai,🤖 ChatGPT
-  - RULE-SET,github_domain,👨🏿‍💻 GitHub
+  - RULE-SET,github_domain,🧰 开发服务
+  - DOMAIN-SUFFIX,githubusercontent.com,🧰 开发服务
+  - DOMAIN-SUFFIX,githubassets.com,🧰 开发服务
+  - DOMAIN-SUFFIX,ghcr.io,🧰 开发服务
+  - DOMAIN-SUFFIX,npmjs.org,🧰 开发服务
+  - DOMAIN-SUFFIX,registry.npmjs.org,🧰 开发服务
+
   - RULE-SET,youtube_domain,📹 YouTube
   - RULE-SET,google_domain,🍀 Google
   - RULE-SET,onedrive_domain,🐬 OneDrive
@@ -226,15 +257,16 @@ rule-anchor:
 
 rule-providers:
   private_domain: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/private.mrs"}
+  ads_domain: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/category-ads-all.mrs"}
 
   UKBankProxy: {<<: *class, url: "https://raw.githubusercontent.com/Nodewebzsz/Rule/refs/heads/main/UKbank.list"}
   DEBankProxy: {<<: *class, url: "https://raw.githubusercontent.com/Nodewebzsz/Rule/refs/heads/main/DEbank.list"}
   SGBankProxy: {<<: *class, url: "https://raw.githubusercontent.com/Nodewebzsz/Rule/refs/heads/main/SGbank.list"}
   TaklatoneDirect: {<<: *class, url: "https://raw.githubusercontent.com/Nodewebzsz/Rule/main/Taklatone.list"}
 
-  direct1: {<<: *class, url: "https://raw.githubusercontent.com/qcyhub/rule/master/Direct.list"}
-  proxylite: {<<: *qcy, url: "https://raw.githubusercontent.com/qcyhub/rule/master/ProxyLite.list"}
-  ai: {<<: *qcy, url: "https://raw.githubusercontent.com/qcyhub/rule/master/AI.list"}
+  direct1: {<<: *class, url: "https://gh.llkk.cc/https://raw.githubusercontent.com/qichiyuhub/rule/main/rules/direct.list"}
+  proxylite: {<<: *class, url: "https://gh.llkk.cc/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/ProxyLite/ProxyLite.list"}
+  ai: {<<: *class, url: "https://gh.llkk.cc/https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Loon/OpenAI/OpenAI.list"}
 
   youtube_domain: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs"}
   google_domain: {<<: *domain, url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"}
