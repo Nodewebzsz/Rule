@@ -3,9 +3,9 @@
 # ==============================================================================
 # init_zsh_setup.sh (同时兼容 Debian / Ubuntu)
 # 自动化配置 zsh、时区、Docker、BBR 及 zsz 管理菜单
+# 说明：清理防火墙时保留 Docker 创建的 iptables 网络规则，避免 docker compose
+#       后续部署时报 DOCKER-FORWARD / DOCKER 链不存在。
 # ==============================================================================
-
-SCRIPT_VERSION="1.1.2"
 
 gl_hui='\033[37m'
 gl_hong='\033[31m'
@@ -16,16 +16,13 @@ gl_bai='\033[0m'
 gl_zi='\033[35m'
 gl_kjlan='\033[96m'
 
-# 1. 要求在 root 权限下进行
 if [ "$EUID" -ne 0 ]; then
   echo -e "${gl_huang}请使用 root 权限运行此脚本 (例如使用: sudo ./init_zsh_setup.sh)${gl_bai}"
   exit 1
 fi
 
-# 切换到 root 根目录
 cd /root || { echo -e "${gl_hong}无法切换到 /root 目录${gl_bai}"; exit 1; }
 
-# 获取脚本自身绝对路径，用于后续 zsz 菜单调用和更新
 SCRIPT_SELF_PATH=$(readlink -f "$0" 2>/dev/null || realpath "$0" 2>/dev/null || echo "$0")
 
 ensure_netfilter_persistent() {
@@ -46,29 +43,84 @@ ensure_netfilter_persistent() {
   DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
 }
 
-clear_firewall_rules() {
-  echo -e "${gl_kjlan}================ 正在关闭并清除防火墙规则 ================${gl_bai}"
-  ensure_netfilter_persistent
-  systemctl stop firewalld.service >/dev/null 2>&1
-  systemctl disable firewalld.service >/dev/null 2>&1
-  setenforce 0 >/dev/null 2>&1          # 关闭SELinux
-  ufw disable >/dev/null 2>&1           # 关闭Ubuntu的ufw防火墙
-  iptables -P INPUT ACCEPT >/dev/null 2>&1      # 设置默认策略为接受
-  iptables -P FORWARD ACCEPT >/dev/null 2>&1
-  iptables -P OUTPUT ACCEPT >/dev/null 2>&1
-  iptables -t mangle -F >/dev/null 2>&1         # 清除所有规则
-  iptables -t mangle -X >/dev/null 2>&1
-  iptables -t nat -F >/dev/null 2>&1
-  iptables -t nat -X >/dev/null 2>&1
-  iptables -F >/dev/null 2>&1
-  iptables -X >/dev/null 2>&1
-  if command -v netfilter-persistent >/dev/null 2>&1; then
-    netfilter-persistent save >/dev/null 2>&1     # 保存iptables规则
-  fi
-  echo -e "${gl_lv}防火墙关闭与 iptables 规则清理完成。${gl_bai}"
+is_docker_iptables_rule() {
+  case "$1" in
+    *"DOCKER"*|*"docker0"*|*"br-"*|*"veth"*|*"com.docker"*|*"--physdev-is-bridged"*)
+      return 0
+      ;;
+  esac
+  return 1
 }
 
-# ================= 设置时区为上海 =================
+clear_table_keep_docker() {
+  table_name="$1"
+  if [ "$table_name" = "filter" ]; then
+    iptables -S 2>/dev/null
+  else
+    iptables -t "$table_name" -S 2>/dev/null
+  fi | while IFS= read -r rule; do
+    case "$rule" in
+      "-P "*|"-N "*)
+        continue
+        ;;
+      "-A "*)
+        if is_docker_iptables_rule "$rule"; then
+          continue
+        fi
+        delete_rule=$(printf '%s\n' "$rule" | sed 's/^-A /-D /')
+        if [ "$table_name" = "filter" ]; then
+          iptables $delete_rule >/dev/null 2>&1
+        else
+          iptables -t "$table_name" $delete_rule >/dev/null 2>&1
+        fi
+        ;;
+    esac
+  done
+}
+
+restart_docker_if_chains_missing() {
+  if ! command -v docker >/dev/null 2>&1 || ! command -v systemctl >/dev/null 2>&1; then
+    return 0
+  fi
+
+  if ! systemctl is-active --quiet docker; then
+    return 0
+  fi
+
+  if iptables -S DOCKER-FORWARD >/dev/null 2>&1 || iptables -S DOCKER >/dev/null 2>&1; then
+    return 0
+  fi
+
+  echo -e "${gl_huang}检测到 Docker iptables 链缺失，正在重启 Docker 修复...${gl_bai}"
+  systemctl restart docker >/dev/null 2>&1
+}
+
+clear_firewall_rules() {
+  echo -e "${gl_kjlan}================ 正在关闭防火墙并保留 Docker 网络规则 ================${gl_bai}"
+  ensure_netfilter_persistent
+
+  systemctl stop firewalld.service >/dev/null 2>&1
+  systemctl disable firewalld.service >/dev/null 2>&1
+  setenforce 0 >/dev/null 2>&1
+  ufw disable >/dev/null 2>&1
+
+  iptables -P INPUT ACCEPT >/dev/null 2>&1
+  iptables -P FORWARD ACCEPT >/dev/null 2>&1
+  iptables -P OUTPUT ACCEPT >/dev/null 2>&1
+
+  clear_table_keep_docker filter
+  clear_table_keep_docker nat
+  clear_table_keep_docker mangle
+
+  restart_docker_if_chains_missing
+
+  if command -v netfilter-persistent >/dev/null 2>&1; then
+    netfilter-persistent save >/dev/null 2>&1
+  fi
+
+  echo -e "${gl_lv}防火墙关闭与 iptables 清理完成，Docker 网络规则已保留。${gl_bai}"
+}
+
 echo -e "${gl_kjlan}================ 正在设置系统时区为上海 ================${gl_bai}"
 ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 echo "Asia/Shanghai" > /etc/timezone
@@ -77,13 +129,11 @@ if command -v timedatectl >/dev/null 2>&1; then
 fi
 echo -e "${gl_lv}当前系统时间: $(date)${gl_bai}"
 
-# ================= 设置 Hostname =================
 echo -ne "${gl_huang}请输入您想设置的主机名 (Hostname) [直接回车默认为: master]: ${gl_bai}"
 read -r user_hostname
 user_hostname=${user_hostname:-master}
 hostnamectl set-hostname "$user_hostname"
 
-# ================= 开启 root 密码登录 =================
 if [ -f /etc/os-release ]; then
   . /etc/os-release
   if [ "$ID" = "ubuntu" ] || [ "$ID" = "debian" ]; then
@@ -92,7 +142,7 @@ if [ -f /etc/os-release ]; then
     read -r user_root_pwd
     user_root_pwd=${user_root_pwd:-zszxc123@}
     echo "root:$user_root_pwd" | chpasswd
-    
+
     if [ -f /etc/ssh/sshd_config ]; then
       sed -i 's/^[[:space:]]*#\?[[:space:]]*PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config
       sed -i 's/^[[:space:]]*#\?[[:space:]]*PasswordAuthentication.*/PasswordAuthentication yes/g' /etc/ssh/sshd_config
@@ -102,21 +152,16 @@ if [ -f /etc/os-release ]; then
   fi
 fi
 
-# 阻止交互式对话框
 export DEBIAN_FRONTEND=noninteractive
 
-# 2.1 更新系统
 echo -e "${gl_kjlan}================ 2.1 更新系统 ================${gl_bai}"
 apt -y update
 
-# ================= 关闭并清除防火墙 =================
 clear_firewall_rules
 
-# 2.2 安装依赖
 echo -e "${gl_kjlan}================ 2.2 安装基础依赖 ================${gl_bai}"
 apt install -y zsh git wget curl
 
-# 2.3 安装 oh-my-zsh
 echo -e "${gl_kjlan}================ 2.3 安装 oh-my-zsh ================${gl_bai}"
 if [ ! -d "/root/.oh-my-zsh" ]; then
   env RUNZSH=no CHSH=no sh -c "$(wget -O- https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
@@ -126,18 +171,15 @@ if [ -n "$zsh_path" ]; then
   chsh -s "$zsh_path"
 fi
 
-# 2.4 更改配置
 echo -e "${gl_kjlan}更换 ZSH 主题为 pygmalion...${gl_bai}"
 sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="pygmalion"/' /root/.zshrc
 
-# 安装 zoxide & fzf
 apt -y install zoxide || curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 if [ ! -d "$HOME/.fzf" ]; then
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
   ~/.fzf/install --all --no-bash --no-fish --key-bindings --completion --update-rc
 fi
 
-# 插件配置
 ZSH_CUSTOM=${ZSH_CUSTOM:-/root/.oh-my-zsh/custom}
 [ ! -d "${ZSH_CUSTOM}/plugins/zsh-autosuggestions" ] && git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
 [ ! -d "${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting" ] && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting
@@ -148,7 +190,6 @@ else
   echo 'plugins=(git extract zsh-autosuggestions zsh-syntax-highlighting)' >> /root/.zshrc
 fi
 
-# 写入自定义 Alias
 if ! grep -q "zoxide init" /root/.zshrc; then
 cat << 'EOF' >> /root/.zshrc
 alias vzsh="vim ~/.zshrc"
@@ -161,13 +202,8 @@ eval "$(zoxide init zsh)"
 EOF
 fi
 
-# ================================================================
-# 安装 zsz 快捷菜单
-# ================================================================
 cat > /usr/local/bin/zsz <<'EOF'
 #!/bin/bash
-# 菜单脚本
-SCRIPT_VERSION="1.1.1"
 SCRIPT_URL="https://raw.githubusercontent.com/Nodewebzsz/Rule/refs/heads/main/init_zsh_setup.sh"
 INIT_SCRIPT_PATH="__INIT_SCRIPT_PATH__"
 
@@ -185,48 +221,22 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
-# --- 内部功能函数 ---
 update_self() {
     echo -e "${gl_kjlan}正在从远程获取最新版本...${gl_bai}"
     tmp_file=$(mktemp)
     tmp_menu=$(mktemp)
-    if curl -fsSL \
-        -H "Cache-Control: no-cache" \
-        -H "Pragma: no-cache" \
-        "${SCRIPT_URL}?t=$(date +%s)" -o "$tmp_file"; then
+    if curl -sSL "$SCRIPT_URL" -o "$tmp_file"; then
         if grep -q "#!/bin/bash" "$tmp_file"; then
-            remote_version=$(grep -m1 '^SCRIPT_VERSION=' "$tmp_file" 2>/dev/null | cut -d '"' -f 2)
-            current_version="$SCRIPT_VERSION"
-            [ -z "$remote_version" ] && remote_version="unknown"
-            echo -e "${gl_kjlan}当前版本: ${gl_huang}v${current_version}${gl_bai}    ${gl_kjlan}远程版本: ${gl_huang}v${remote_version}${gl_bai}"
-
-            if [ "$remote_version" != "unknown" ] && [ "$remote_version" = "$current_version" ]; then
-                echo -e "${gl_lv}当前脚本已是最新版本，无需更新。🎉${gl_bai}"
-                rm -f "$tmp_file" "$tmp_menu"
-                return 0
-            fi
-            if [ -f "$INIT_SCRIPT_PATH" ] && cmp -s "$tmp_file" "$INIT_SCRIPT_PATH"; then
-                echo -e "${gl_lv}远程脚本内容与本地一致，无需更新。🎉${gl_bai}"
-                rm -f "$tmp_file" "$tmp_menu"
-                return 0
-            fi
-            echo -e "${gl_huang}发现新版本，开始更新...${gl_bai}"
             mv "$tmp_file" "$INIT_SCRIPT_PATH"
             chmod +x "$INIT_SCRIPT_PATH"
-            echo -e "${gl_lv}脚本更新成功！正在重新安装菜单以应用更改...🎉${gl_bai}"
+            echo -e "${gl_lv}脚本更新成功！正在重新安装菜单以应用更改...${gl_bai}"
             if awk 'found && $0 == "EOF" { exit } found { print } index($0, "cat > /usr/local/bin/zsz <<") == 1 { found=1 }' "$INIT_SCRIPT_PATH" > "$tmp_menu" && [ -s "$tmp_menu" ]; then
                 escaped_path=$(printf '%s\n' "$INIT_SCRIPT_PATH" | sed 's/[\/&]/\\&/g')
                 sed -i "s|__INIT_SCRIPT_PATH__|${escaped_path}|g" "$tmp_menu"
                 chmod +x "$tmp_menu"
                 mv "$tmp_menu" /usr/local/bin/zsz
-                echo -e "${gl_lv}菜单更新完成，正在载入新版菜单...🎉${gl_bai}"
-                echo -ne "${gl_huang}按任意键继续载入新版菜单，按 ESC 退出...${gl_bai}"
-                IFS= read -rsn1 reload_key
-                echo
-                if [ "$reload_key" = $'\e' ]; then
-                    exit 0
-                fi
-                exec /usr/local/bin/zsz
+                echo -e "${gl_lv}菜单更新完成，已返回菜单。${gl_bai}"
+                return 0
             fi
             rm -f "$tmp_menu"
             echo -e "${gl_hong}菜单重装失败，请手动执行: bash $INIT_SCRIPT_PATH${gl_bai}"
@@ -241,7 +251,7 @@ update_self() {
 install_add_docker() {
     if command -v docker >/dev/null 2>&1; then
         if docker compose version >/dev/null 2>&1 || command -v docker-compose >/dev/null 2>&1; then
-            echo -e "${gl_lv}Docker 与 Docker Compose 已安装，跳过重复安装流程。🎉${gl_bai}"
+            echo -e "${gl_lv}Docker 与 Docker Compose 已安装，跳过重复安装流程。${gl_bai}"
             docker --version 2>/dev/null
             docker compose version 2>/dev/null || docker-compose --version 2>/dev/null
             return 0
@@ -270,9 +280,61 @@ ensure_netfilter_persistent() {
     DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
 }
 
+is_docker_iptables_rule() {
+    case "$1" in
+        *"DOCKER"*|*"docker0"*|*"br-"*|*"veth"*|*"com.docker"*|*"--physdev-is-bridged"*)
+            return 0
+            ;;
+    esac
+    return 1
+}
+
+clear_table_keep_docker() {
+    table_name="$1"
+    if [ "$table_name" = "filter" ]; then
+        iptables -S 2>/dev/null
+    else
+        iptables -t "$table_name" -S 2>/dev/null
+    fi | while IFS= read -r rule; do
+        case "$rule" in
+            "-P "*|"-N "*)
+                continue
+                ;;
+            "-A "*)
+                if is_docker_iptables_rule "$rule"; then
+                    continue
+                fi
+                delete_rule=$(printf '%s\n' "$rule" | sed 's/^-A /-D /')
+                if [ "$table_name" = "filter" ]; then
+                    iptables $delete_rule >/dev/null 2>&1
+                else
+                    iptables -t "$table_name" $delete_rule >/dev/null 2>&1
+                fi
+                ;;
+        esac
+    done
+}
+
+restart_docker_if_chains_missing() {
+    if ! command -v docker >/dev/null 2>&1 || ! command -v systemctl >/dev/null 2>&1; then
+        return 0
+    fi
+
+    if ! systemctl is-active --quiet docker; then
+        return 0
+    fi
+
+    if iptables -S DOCKER-FORWARD >/dev/null 2>&1 || iptables -S DOCKER >/dev/null 2>&1; then
+        return 0
+    fi
+
+    echo -e "${gl_huang}检测到 Docker iptables 链缺失，正在重启 Docker 修复...${gl_bai}"
+    systemctl restart docker >/dev/null 2>&1
+}
+
 setup_xboard_forward() {
     if iptables -t nat -C PREROUTING -p udp --dport 50000:65535 -j DNAT --to-destination :8899 >/dev/null 2>&1; then
-        echo -e "${gl_lv}xboard 端口转发规则已存在，跳过重复设置。🎉${gl_bai}"
+        echo -e "${gl_lv}xboard 端口转发规则已存在，跳过重复设置。${gl_bai}"
         return 0
     fi
 
@@ -282,7 +344,7 @@ setup_xboard_forward() {
     if command -v netfilter-persistent >/dev/null 2>&1; then
         netfilter-persistent save
     fi
-    echo -e "${gl_lv}xboard 端口转发设置完成。🎉${gl_bai}"
+    echo -e "${gl_lv}xboard 端口转发设置完成。${gl_bai}"
 }
 
 firewall_rules_already_clear() {
@@ -298,45 +360,56 @@ firewall_rules_already_clear() {
         return 0
     fi
 
-    iptables -S 2>/dev/null | grep -Ev '^-(P INPUT ACCEPT|P FORWARD ACCEPT|P OUTPUT ACCEPT)$' | grep -q . && return 1
-    iptables -t nat -S 2>/dev/null | grep -Ev '^-(P PREROUTING ACCEPT|P INPUT ACCEPT|P OUTPUT ACCEPT|P POSTROUTING ACCEPT)$' | grep -q . && return 1
-    iptables -t mangle -S 2>/dev/null | grep -Ev '^-(P PREROUTING ACCEPT|P INPUT ACCEPT|P FORWARD ACCEPT|P OUTPUT ACCEPT|P POSTROUTING ACCEPT)$' | grep -q . && return 1
+    iptables -S 2>/dev/null | grep -Ev '^-(P INPUT ACCEPT|P FORWARD ACCEPT|P OUTPUT ACCEPT)$' | while IFS= read -r rule; do
+        is_docker_iptables_rule "$rule" || printf '%s\n' "$rule"
+    done | grep -q . && return 1
+
+    iptables -t nat -S 2>/dev/null | grep -Ev '^-(P PREROUTING ACCEPT|P INPUT ACCEPT|P OUTPUT ACCEPT|P POSTROUTING ACCEPT)$' | while IFS= read -r rule; do
+        is_docker_iptables_rule "$rule" || printf '%s\n' "$rule"
+    done | grep -q . && return 1
+
+    iptables -t mangle -S 2>/dev/null | grep -Ev '^-(P PREROUTING ACCEPT|P INPUT ACCEPT|P FORWARD ACCEPT|P OUTPUT ACCEPT|P POSTROUTING ACCEPT)$' | while IFS= read -r rule; do
+        is_docker_iptables_rule "$rule" || printf '%s\n' "$rule"
+    done | grep -q . && return 1
 
     return 0
 }
 
 clear_firewall_rules() {
     if firewall_rules_already_clear; then
-        echo -e "${gl_lv}防火墙已关闭，iptables 规则已清空，跳过重复清理。🎉${gl_bai}"
+        echo -e "${gl_lv}防火墙已关闭，非 Docker iptables 规则已清空，跳过重复清理。${gl_bai}"
+        restart_docker_if_chains_missing
         return 0
     fi
 
-    echo -e "${gl_kjlan}正在关闭并清除防火墙规则...${gl_bai}"
+    echo -e "${gl_kjlan}正在关闭防火墙，并保留 Docker 网络规则...${gl_bai}"
     ensure_netfilter_persistent
     systemctl stop firewalld.service >/dev/null 2>&1
     systemctl disable firewalld.service >/dev/null 2>&1
     setenforce 0 >/dev/null 2>&1
     ufw disable >/dev/null 2>&1
+
     iptables -P INPUT ACCEPT >/dev/null 2>&1
     iptables -P FORWARD ACCEPT >/dev/null 2>&1
     iptables -P OUTPUT ACCEPT >/dev/null 2>&1
-    iptables -t mangle -F >/dev/null 2>&1
-    iptables -t mangle -X >/dev/null 2>&1
-    iptables -t nat -F >/dev/null 2>&1
-    iptables -t nat -X >/dev/null 2>&1
-    iptables -F >/dev/null 2>&1
-    iptables -X >/dev/null 2>&1
+
+    clear_table_keep_docker filter
+    clear_table_keep_docker nat
+    clear_table_keep_docker mangle
+
+    restart_docker_if_chains_missing
+
     if command -v netfilter-persistent >/dev/null 2>&1; then
         netfilter-persistent save >/dev/null 2>&1
     fi
-    echo -e "${gl_lv}防火墙关闭与 iptables 规则清理完成。🎉${gl_bai}"
+    echo -e "${gl_lv}防火墙关闭与 iptables 清理完成，Docker 网络规则已保留。${gl_bai}"
 }
 
 bbr_on() {
     current_qdisc=$(sysctl -n net.core.default_qdisc 2>/dev/null)
     current_cc=$(sysctl -n net.ipv4.tcp_congestion_control 2>/dev/null)
     if [ "$current_qdisc" = "fq" ] && [ "$current_cc" = "bbr" ]; then
-        echo -e "${gl_lv}BBR 已开启，跳过重复设置。🎉${gl_bai}"
+        echo -e "${gl_lv}BBR 已开启，跳过重复设置。${gl_bai}"
         return 0
     fi
 
@@ -364,7 +437,6 @@ bbr_on() {
     echo "net.core.default_qdisc=fq" > "$local_conf"
     echo "net.ipv4.tcp_congestion_control=bbr" >> "$local_conf"
 
-    # 清理旧位置里的同名配置，避免 sysctl --system 时被后续文件覆盖。
     sed -i '/net.ipv4.tcp_congestion_control/d' /etc/sysctl.conf 2>/dev/null
     sed -i '/net.core.default_qdisc/d' /etc/sysctl.conf 2>/dev/null
 
@@ -374,7 +446,7 @@ bbr_on() {
     if sysctl -p "$local_conf" >/dev/null 2>&1 || sysctl --system >/dev/null 2>&1; then
         current_qdisc=$(sysctl -n net.core.default_qdisc 2>/dev/null)
         current_cc=$(sysctl -n net.ipv4.tcp_congestion_control 2>/dev/null)
-        echo -e "${gl_lv}BBR 设置完成，当前状态: ${gl_huang}$current_cc $current_qdisc ${gl_lv}🎉${gl_bai}"
+        echo -e "${gl_lv}BBR 设置完成，当前状态: ${gl_huang}$current_cc $current_qdisc${gl_bai}"
         return 0
     fi
 
@@ -387,7 +459,7 @@ pause_or_exit() {
     action_message=${2:-"菜单功能执行完成。"}
     echo
     if [ "$action_status" -eq 0 ]; then
-        echo -e "${gl_lv}${action_message}🎉${gl_bai}"
+        echo -e "${gl_lv}${action_message}${gl_bai}"
     else
         echo -e "${gl_hong}${action_message}${gl_bai}"
         echo -e "${gl_huang}请查看上方输出，确认失败原因后再重试。${gl_bai}"
@@ -404,20 +476,16 @@ pause_or_exit() {
 show_zsz_menu() {
   while true; do
     clear
-    echo -e "${gl_kjlan}╔════════════════════════════════════════════════════╗${gl_bai}"
-    echo -e "${gl_kjlan}║${gl_bai}              ${gl_huang}zsz 工具菜单${gl_bai}  ${gl_hui}v${SCRIPT_VERSION}${gl_bai}              ${gl_kjlan}║${gl_bai}"
-    echo -e "${gl_kjlan}╠════════════════════════════════════════════════════╣${gl_bai}"
-    echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}1.${gl_bai} 初始化主流程             ${gl_hui}重置/修复 zsh 环境${gl_bai} ${gl_kjlan}║${gl_bai}"
-    echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}2.${gl_bai} Docker 环境              ${gl_hui}安装/更新 Compose${gl_bai} ${gl_kjlan}║${gl_bai}"
-    echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}3.${gl_bai} 默认出口网卡             ${gl_hui}查看当前路由出口${gl_bai} ${gl_kjlan}║${gl_bai}"
-    echo -e "${gl_kjlan}╠════════════════════════════════════════════════════╣${gl_bai}"
-    echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}4.${gl_bai} xboard 端口转发          ${gl_hui}UDP 50000-65535 → 8899${gl_bai} ${gl_kjlan}║${gl_bai}"
-    echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}5.${gl_bai} BBR 加速                 ${gl_hui}开启/检查 TCP BBR${gl_bai} ${gl_kjlan}║${gl_bai}"
-    echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}6.${gl_bai} 清除防火墙规则           ${gl_hui}关闭 ufw/firewalld${gl_bai} ${gl_kjlan}║${gl_bai}"
-    echo -e "${gl_kjlan}╠════════════════════════════════════════════════════╣${gl_bai}"
-    echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}7.${gl_bai} 更新脚本                 ${gl_hui}拉取远程最新版${gl_bai} ${gl_kjlan}║${gl_bai}"
-    echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}0.${gl_bai} 退出                     ${gl_hui}或按 ESC 退出${gl_bai} ${gl_kjlan}║${gl_bai}"
-    echo -e "${gl_kjlan}╚════════════════════════════════════════════════════╝${gl_bai}"
+    echo -e "${gl_kjlan}================ zsz 工具菜单 ================${gl_bai}"
+    echo -e "${gl_huang}1.${gl_bai} 执行 init_zsh_setup 主流程 (重置/修复配置)"
+    echo -e "${gl_huang}2.${gl_bai} 安装/更新 Docker 与 Docker Compose"
+    echo -e "${gl_huang}3.${gl_bai} 输出默认出口网卡"
+    echo -e "${gl_huang}4.${gl_bai} xboard 端口转发设置"
+    echo -e "${gl_huang}5.${gl_bai} 开启 BBR"
+    echo -e "${gl_huang}6.${gl_bai} 关闭并清除防火墙规则 (保留 Docker 网络规则)"
+    echo -e "${gl_huang}7.${gl_bai} 🔄 更新此脚本 (Update Script)"
+    echo -e "${gl_huang}0.${gl_bai} 退出"
+    echo -e "${gl_kjlan}===============================================${gl_bai}"
     echo -ne "${gl_huang}请输入选择，或按 ESC 退出: ${gl_bai}"
     IFS= read -rsn1 sub_choice
     echo
@@ -440,7 +508,7 @@ show_zsz_menu() {
       3)
         ip route get 1.1.1.1
         action_status=$?
-        action_message="默认出口网卡查询完成"
+        action_message="默认出口网卡查询完成。"
         ;;
       4)
         setup_xboard_forward
@@ -474,7 +542,6 @@ show_zsz_menu() {
 show_zsz_menu
 EOF
 
-# 替换路径变量并赋权
 escaped_path=$(printf '%s\n' "$SCRIPT_SELF_PATH" | sed 's/[\/&]/\\&/g')
 sed -i "s|__INIT_SCRIPT_PATH__|${escaped_path}|g" /usr/local/bin/zsz
 chmod +x /usr/local/bin/zsz
