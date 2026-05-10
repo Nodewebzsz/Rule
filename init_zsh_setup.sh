@@ -5,7 +5,7 @@
 # 自动化配置 zsh、时区、Docker、BBR 及 zsz 管理菜单
 # ==============================================================================
 
-SCRIPT_VERSION="1.1.1"
+SCRIPT_VERSION="1.1.2"
 
 gl_hui='\033[37m'
 gl_hong='\033[31m'
@@ -15,6 +15,13 @@ gl_lan='\033[34m'
 gl_bai='\033[0m'
 gl_zi='\033[35m'
 gl_kjlan='\033[96m'
+
+# 兼容更直观的颜色变量命名
+GREEN="${gl_lv}"
+YELLOW="${gl_huang}"
+CYAN="${gl_kjlan}"
+MAGENTA="${gl_zi}"
+NC="${gl_bai}"
 
 # 1. 要求在 root 权限下进行
 if [ "$EUID" -ne 0 ]; then
@@ -167,7 +174,7 @@ fi
 cat > /usr/local/bin/zsz <<'EOF'
 #!/bin/bash
 # 菜单脚本
-SCRIPT_VERSION="1.1.1"
+SCRIPT_VERSION="1.1.2"
 SCRIPT_URL="https://raw.githubusercontent.com/Nodewebzsz/Rule/refs/heads/main/init_zsh_setup.sh"
 INIT_SCRIPT_PATH="__INIT_SCRIPT_PATH__"
 
@@ -179,6 +186,12 @@ gl_lan='\033[34m'
 gl_bai='\033[0m'
 gl_zi='\033[35m'
 gl_kjlan='\033[96m'
+
+GREEN="${gl_lv}"
+YELLOW="${gl_huang}"
+CYAN="${gl_kjlan}"
+MAGENTA="${gl_zi}"
+NC="${gl_bai}"
 
 if [ "$EUID" -ne 0 ]; then
   echo -e "${gl_huang}请使用 root 权限运行 zsz${gl_bai}"
@@ -486,5 +499,12 @@ escaped_path=$(printf '%s\n' "$SCRIPT_SELF_PATH" | sed 's/[\/&]/\\&/g')
 sed -i "s|__INIT_SCRIPT_PATH__|${escaped_path}|g" /usr/local/bin/zsz
 chmod +x /usr/local/bin/zsz
 
-echo -e "\033[1;32m🎉 配置完成！时区已设为上海，输入 'zsz' 即可调出菜单。\033[0m"
-echo -e "\033[1;35m执行 'exec zsh' 立即进入新环境。\033[0m"
+echo -e "\n${GREEN}================================================================${NC}"
+echo -e "${GREEN}🎉 配置已全部完成！时区已设为上海，输入 ${YELLOW}zsz${GREEN} 即可调出菜单。${NC}\n"
+
+echo -e "${YELLOW}🔥【必备插件指南】🔥${NC}"
+echo -e "${CYAN}1. zsh-autosuggestions:${NC} 打字时若出现灰色的历史纪录建议，直接按 ${YELLOW}【向右方向键 →】${NC} 即可补全整行！"
+echo -e "${CYAN}2. fzf (必须掌握):${NC} 此乃模糊搜索神器。随时按下 ${YELLOW}【Ctrl + R】${NC}，会弹出一个交互菜单，输入部分命令字母就能极速找到以前敲过的任意长命令，回车即可加载到输入区跳过繁复打字！"
+echo -e "${CYAN}3. zoxide (新一代目录跳转神器):${NC} 完全替代 fasd。在终端输入 ${YELLOW}【z 关键字】${NC} 即可根据历史访问习惯瞬间跳到目标目录（例如输入 ${YELLOW}z log${NC}，就能跳到 /var/log）。配合 fzf 还可以输入 ${YELLOW}【zi】${NC} 开启可视化交互跳转！\n"
+
+echo -e "${MAGENTA}执行 ${YELLOW}exec zsh${MAGENTA} 立即进入新环境。${NC}"
