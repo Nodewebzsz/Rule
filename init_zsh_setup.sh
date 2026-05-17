@@ -5,7 +5,7 @@
 # 自动化配置 zsh、时区、Docker、BBR 及 zsz 管理菜单
 # ==============================================================================
 
-SCRIPT_VERSION="1.1.2"
+SCRIPT_VERSION="1.1.5"
 
 gl_hui='\033[37m'
 gl_hong='\033[31m'
@@ -53,6 +53,64 @@ ensure_netfilter_persistent() {
   DEBIAN_FRONTEND=noninteractive apt install -y netfilter-persistent iptables-persistent
 }
 
+docker_iptables_in_use() {
+  command -v iptables >/dev/null 2>&1 || return 1
+  iptables -S 2>/dev/null | grep -q '^-N DOCKER' && return 0
+  iptables -t nat -S 2>/dev/null | grep -q '^-N DOCKER' && return 0
+  return 1
+}
+
+xboard_forward_in_use() {
+  command -v iptables >/dev/null 2>&1 || return 1
+  iptables -t nat -C PREROUTING -p udp --dport 50000:65535 -j DNAT --to-destination :8899 >/dev/null 2>&1
+}
+
+clear_non_docker_iptables_rules() {
+  if ! command -v iptables-save >/dev/null 2>&1 || ! command -v iptables-restore >/dev/null 2>&1; then
+    return 1
+  fi
+
+  save_file=$(mktemp)
+  restore_file=$(mktemp)
+  iptables-save > "$save_file" || {
+    rm -f "$save_file" "$restore_file"
+    return 1
+  }
+
+  awk '
+    /^\*(filter|nat|mangle)$/ { table=$0; keep=1; print; next }
+    /^\*/ { keep=0; table=""; next }
+    !keep { next }
+    /^COMMIT$/ { print; next }
+    /^:/ {
+      if (table == "*filter" && $0 ~ /^:(INPUT|FORWARD|OUTPUT) /) {
+        split($0, a, " "); printf "%s ACCEPT [0:0]\n", a[1]; next
+      }
+      if (table == "*nat" && $0 ~ /^:(PREROUTING|INPUT|OUTPUT|POSTROUTING) /) {
+        print; next
+      }
+      if (table == "*mangle" && $0 ~ /^:(PREROUTING|INPUT|FORWARD|OUTPUT|POSTROUTING) /) {
+        print; next
+      }
+      if ($0 ~ /^:DOCKER/) {
+        print; next
+      }
+      next
+    }
+    /^-A/ {
+      if ($0 ~ /(DOCKER|docker[0-9]|br-[0-9a-fA-F]+)/ || ($0 ~ /--dport 50000:65535/ && $0 ~ /--to-destination :8899/)) {
+        print; next
+      }
+      next
+    }
+  ' "$save_file" > "$restore_file"
+
+  iptables-restore < "$restore_file"
+  restore_status=$?
+  rm -f "$save_file" "$restore_file"
+  return "$restore_status"
+}
+
 clear_firewall_rules() {
   echo -e "${gl_kjlan}================ 正在关闭并清除防火墙规则 ================${gl_bai}"
   ensure_netfilter_persistent
@@ -63,6 +121,19 @@ clear_firewall_rules() {
   iptables -P INPUT ACCEPT >/dev/null 2>&1      # 设置默认策略为接受
   iptables -P FORWARD ACCEPT >/dev/null 2>&1
   iptables -P OUTPUT ACCEPT >/dev/null 2>&1
+  if docker_iptables_in_use || xboard_forward_in_use; then
+    echo -e "${gl_huang}检测到 Docker 或 xboard 转发规则，正在清理其他规则并保留关键端口映射。${gl_bai}"
+    if clear_non_docker_iptables_rules; then
+      echo -e "${gl_lv}其他防火墙规则已清理，Docker 与 xboard 相关规则已保留。${gl_bai}"
+    else
+      echo -e "${gl_hong}关键规则保护清理失败，已跳过全表清空，避免误删 Docker 或 xboard 端口映射。${gl_bai}"
+      return 1
+    fi
+    if command -v netfilter-persistent >/dev/null 2>&1; then
+      netfilter-persistent save >/dev/null 2>&1
+    fi
+    return 0
+  fi
   iptables -t mangle -F >/dev/null 2>&1         # 清除所有规则
   iptables -t mangle -X >/dev/null 2>&1
   iptables -t nat -F >/dev/null 2>&1
@@ -174,7 +245,7 @@ fi
 cat > /usr/local/bin/zsz <<'EOF'
 #!/bin/bash
 # 菜单脚本
-SCRIPT_VERSION="1.1.2"
+SCRIPT_VERSION="1.1.5"
 SCRIPT_URL="https://raw.githubusercontent.com/Nodewebzsz/Rule/refs/heads/main/init_zsh_setup.sh"
 INIT_SCRIPT_PATH="__INIT_SCRIPT_PATH__"
 
@@ -318,6 +389,64 @@ firewall_rules_already_clear() {
     return 0
 }
 
+docker_iptables_in_use() {
+    command -v iptables >/dev/null 2>&1 || return 1
+    iptables -S 2>/dev/null | grep -q '^-N DOCKER' && return 0
+    iptables -t nat -S 2>/dev/null | grep -q '^-N DOCKER' && return 0
+    return 1
+}
+
+xboard_forward_in_use() {
+    command -v iptables >/dev/null 2>&1 || return 1
+    iptables -t nat -C PREROUTING -p udp --dport 50000:65535 -j DNAT --to-destination :8899 >/dev/null 2>&1
+}
+
+clear_non_docker_iptables_rules() {
+    if ! command -v iptables-save >/dev/null 2>&1 || ! command -v iptables-restore >/dev/null 2>&1; then
+        return 1
+    fi
+
+    save_file=$(mktemp)
+    restore_file=$(mktemp)
+    iptables-save > "$save_file" || {
+        rm -f "$save_file" "$restore_file"
+        return 1
+    }
+
+    awk '
+        /^\*(filter|nat|mangle)$/ { table=$0; keep=1; print; next }
+        /^\*/ { keep=0; table=""; next }
+        !keep { next }
+        /^COMMIT$/ { print; next }
+        /^:/ {
+            if (table == "*filter" && $0 ~ /^:(INPUT|FORWARD|OUTPUT) /) {
+                split($0, a, " "); printf "%s ACCEPT [0:0]\n", a[1]; next
+            }
+            if (table == "*nat" && $0 ~ /^:(PREROUTING|INPUT|OUTPUT|POSTROUTING) /) {
+                print; next
+            }
+            if (table == "*mangle" && $0 ~ /^:(PREROUTING|INPUT|FORWARD|OUTPUT|POSTROUTING) /) {
+                print; next
+            }
+            if ($0 ~ /^:DOCKER/) {
+                print; next
+            }
+            next
+        }
+        /^-A/ {
+            if ($0 ~ /(DOCKER|docker[0-9]|br-[0-9a-fA-F]+)/ || ($0 ~ /--dport 50000:65535/ && $0 ~ /--to-destination :8899/)) {
+                print; next
+            }
+            next
+        }
+    ' "$save_file" > "$restore_file"
+
+    iptables-restore < "$restore_file"
+    restore_status=$?
+    rm -f "$save_file" "$restore_file"
+    return "$restore_status"
+}
+
 clear_firewall_rules() {
     if firewall_rules_already_clear; then
         echo -e "${gl_lv}防火墙已关闭，iptables 规则已清空，跳过重复清理。🎉${gl_bai}"
@@ -333,6 +462,19 @@ clear_firewall_rules() {
     iptables -P INPUT ACCEPT >/dev/null 2>&1
     iptables -P FORWARD ACCEPT >/dev/null 2>&1
     iptables -P OUTPUT ACCEPT >/dev/null 2>&1
+    if docker_iptables_in_use || xboard_forward_in_use; then
+        echo -e "${gl_huang}检测到 Docker 或 xboard 转发规则，正在清理其他规则并保留关键端口映射。${gl_bai}"
+        if clear_non_docker_iptables_rules; then
+            echo -e "${gl_lv}其他防火墙规则已清理，Docker 与 xboard 相关规则已保留。🎉${gl_bai}"
+        else
+            echo -e "${gl_hong}关键规则保护清理失败，已跳过全表清空，避免误删 Docker 或 xboard 端口映射。${gl_bai}"
+            return 1
+        fi
+        if command -v netfilter-persistent >/dev/null 2>&1; then
+            netfilter-persistent save >/dev/null 2>&1
+        fi
+        return 0
+    fi
     iptables -t mangle -F >/dev/null 2>&1
     iptables -t mangle -X >/dev/null 2>&1
     iptables -t nat -F >/dev/null 2>&1
