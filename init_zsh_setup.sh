@@ -5,7 +5,7 @@
 # 自动化配置 zsh、时区、Docker、BBR 及 zsz 管理菜单
 # ==============================================================================
 
-SCRIPT_VERSION="1.1.5"
+SCRIPT_VERSION="1.1.6"
 
 gl_hui='\033[37m'
 gl_hong='\033[31m'
@@ -245,7 +245,7 @@ fi
 cat > /usr/local/bin/zsz <<'EOF'
 #!/bin/bash
 # 菜单脚本
-SCRIPT_VERSION="1.1.5"
+SCRIPT_VERSION="1.1.6"
 SCRIPT_URL="https://raw.githubusercontent.com/Nodewebzsz/Rule/refs/heads/main/init_zsh_setup.sh"
 INIT_SCRIPT_PATH="__INIT_SCRIPT_PATH__"
 
@@ -334,6 +334,47 @@ install_add_docker() {
     fi
     echo -e "${gl_kjlan}正在安装 Docker 环境...${gl_bai}"
     bash <(curl -sSL https://linuxmirrors.cn/docker.sh) --install-latest true --ignore-backup-tips
+}
+
+setup_docker_auth() {
+    docker_dir="/root/.docker"
+    docker_config="${docker_dir}/config.json"
+
+    if [ ! -d "$docker_dir" ]; then
+        echo -e "${gl_huang}未检测到 ${docker_dir}，正在创建...${gl_bai}"
+        mkdir -p "$docker_dir" || return 1
+        chmod 700 "$docker_dir" 2>/dev/null
+    else
+        echo -e "${gl_lv}已检测到 ${docker_dir}。${gl_bai}"
+    fi
+
+    if [ -f "$docker_config" ]; then
+        backup_file="${docker_config}.bak.$(date +%Y%m%d%H%M%S)"
+        echo -e "${gl_huang}已检测到 ${docker_config}，先备份到 ${backup_file}${gl_bai}"
+        cp "$docker_config" "$backup_file" || return 1
+    else
+        echo -e "${gl_huang}未检测到 ${docker_config}，将创建新配置文件。${gl_bai}"
+    fi
+
+    cat > "$docker_config" <<'DOCKER_AUTH_EOF'
+{
+    "auths": {
+        "registry.cn-shenzhen.aliyuncs.com": {
+            "username": "zszxcken",
+            "password": "zszxc123@",
+            "auth": "enN6eGNrZW46enN6eGMxMjNA"
+        },
+        "registry.cn-hangzhou.aliyuncs.com": {
+            "username": "zszweb",
+            "password": "zsz127428",
+            "auth": "enN6d2ViOnpzejEyNzQyOA=="
+        }
+    }
+}
+DOCKER_AUTH_EOF
+
+    chmod 600 "$docker_config" 2>/dev/null
+    echo -e "${gl_lv}Docker 授权配置已写入 ${docker_config}${gl_bai}"
 }
 
 ensure_netfilter_persistent() {
@@ -577,6 +618,7 @@ show_zsz_menu() {
     echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}6.${gl_bai} 清除防火墙规则           ${gl_hui}关闭 ufw/firewalld${gl_bai} ${gl_kjlan}║${gl_bai}"
     echo -e "${gl_kjlan}╠════════════════════════════════════════════════════╣${gl_bai}"
     echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}7.${gl_bai} 更新脚本                 ${gl_hui}拉取远程最新版${gl_bai} ${gl_kjlan}║${gl_bai}"
+    echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}8.${gl_bai} Docker 授权              ${gl_hui}写入阿里云镜像仓库登录${gl_bai} ${gl_kjlan}║${gl_bai}"
     echo -e "${gl_kjlan}║${gl_bai} ${gl_huang}0.${gl_bai} 退出                     ${gl_hui}或按 ESC 退出${gl_bai} ${gl_kjlan}║${gl_bai}"
     echo -e "${gl_kjlan}╚════════════════════════════════════════════════════╝${gl_bai}"
     echo -ne "${gl_huang}请输入选择，或按 ESC 退出: ${gl_bai}"
@@ -623,6 +665,11 @@ show_zsz_menu() {
         update_self
         action_status=$?
         action_message="脚本更新流程完成；重新打开 zsz 可加载最新菜单脚本。"
+        ;;
+      8)
+        setup_docker_auth
+        action_status=$?
+        action_message="Docker 授权配置写入流程完成。"
         ;;
       0) exit 0 ;;
       *)
