@@ -166,9 +166,9 @@ if [ -f /etc/os-release ]; then
   . /etc/os-release
   if [ "$ID" = "ubuntu" ] || [ "$ID" = "debian" ]; then
     echo -e "${gl_kjlan}================ 正在配置 Root 密码与 SSH 登录 ================${gl_bai}"
-    echo -ne "${gl_huang}请输入新的 root 密码 [直接回车默认为: zszxc123@]: ${gl_bai}"
+    echo -ne "${gl_huang}请输入新的 root 密码 [直接回车默认为: adminpwd123@]: ${gl_bai}"
     read -r user_root_pwd
-    user_root_pwd=${user_root_pwd:-zszxc123@}
+    user_root_pwd=${user_root_pwd:-adminpwd123@}
     echo "root:$user_root_pwd" | chpasswd
     
     if [ -f /etc/ssh/sshd_config ]; then
