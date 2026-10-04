@@ -1,0 +1,27 @@
+# > Google 邮箱 (Gmail / Google Mail)
+# 涵盖 Web 端、邮件客户端协议 (IMAP/SMTP/POP3)、附件下载及官方客户端
+
+# Web 端核心
+DOMAIN,mail.google.com
+DOMAIN,inbox.google.com
+DOMAIN-SUFFIX,gmail.com
+DOMAIN-SUFFIX,googlemail.com
+
+# 邮件客户端收发信协议 (IMAP / SMTP / POP3)
+# 适用于 Apple 邮件、Outlook、Thunderbird、Spark 等第三方客户端
+DOMAIN,imap.gmail.com
+DOMAIN,smtp.gmail.com
+DOMAIN,pop.gmail.com
+DOMAIN,gmail-smtp-in.l.google.com
+DOMAIN,smtp-relay.gmail.com
+
+# 附件、联系人及静态资源
+DOMAIN,mail-attachment.googleusercontent.com
+DOMAIN,contacts.google.com
+
+# Google 账号登录/鉴权（客户端添加 Google 账户时使用）
+DOMAIN,accounts.google.com
+
+# 官方客户端应用 User-Agent
+USER-AGENT,Gmail*
+USER-AGENT,GoogleMail*
