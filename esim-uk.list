@@ -15,5 +15,6 @@ IP-CIDR,88.82.0.0/19,no-resolve
 
 # Cmlink uk
 DOMAIN-SUFFIX,3gppnetwork.org
-IP-CIDR,198.0.7.197/32,no-resolve
+DOMAIN-SUFFIX,epdg.epc.mnc033.mcc234.pub.3gppnetwork.org
+# IP-CIDR,198.0.7.197/32,no-resolve
 
