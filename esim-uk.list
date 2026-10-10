@@ -13,3 +13,7 @@ DOMAIN-SUFFIX,epdg.epc.mnc087.mcc234.pub.3gppnetwork.org
 DOMAIN-SUFFIX,ims.mnc087.mcc234.3gppnetwork.org
 IP-CIDR,88.82.0.0/19,no-resolve
 
+# Cmlink uk
+DOMAIN-SUFFIX,3gppnetwork.org
+IP-CIDR,198.0.7.197/32,no-resolve
+
