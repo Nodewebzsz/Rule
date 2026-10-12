@@ -2,6 +2,7 @@
 # Giffgaff
 DOMAIN-SUFFIX,giffgaff.com
 DOMAIN-SUFFIX,epdg.epc.mnc010.mcc234.pub.3gppnetwork.org
+DOMAIN-SUFFIX,ims.mnc010.mcc234.3gppnetwork.org
 IP-CIDR,87.194.0.0/16,no-resolve
 
 # Lebara
