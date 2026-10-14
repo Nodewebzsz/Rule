@@ -7,3 +7,5 @@ DOMAIN-SUFFIX,ims.mnc003.mcc262.3gppnetwork.org
 DOMAIN-SUFFIX,3gppnetwork.org
 DOMAIN-SUFFIX,mcc262.pub.3gppnetwork.org
 DOMAIN-SUFFIX,mcc262.3gppnetwork.org
+
+IP-CIDR,139.7.117.170/32,no-resolve
