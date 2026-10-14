@@ -22,6 +22,23 @@ DOMAIN-SUFFIX,3gppnetwork.org
 DOMAIN-SUFFIX,epdg.epc.mnc033.mcc234.pub.3gppnetwork.org
 # IP-CIDR,198.0.7.197/32,no-resolve
 
+# VOXI / Vodafone UK (PLMN 23415) VoWiFi 核心网分流
+# ========================================================
+# 1. 3GPP 标准 ePDG 域名及灾备域名
+DOMAIN-SUFFIX,epdg.epc.mnc015.mcc234.pub.3gppnetwork.org,你的英国节点
+DOMAIN-SUFFIX,epdg.epc.geo.mnc015.mcc234.pub.3gppnetwork.org,你的英国节点
+
+# 2. Vodafone 官方域名与 CNAME 实际目标 (极关键)
+DOMAIN-SUFFIX,epdg.vodafone.co.uk,你的英国节点
+DOMAIN-SUFFIX,vodafone.co.uk,你的英国节点
+
+# 3. IMS SIP 注册核心网域名
+DOMAIN-SUFFIX,ims.mnc015.mcc234.3gppnetwork.org,你的英国节点
+
+# 4. Vodafone UK 官方 ePDG Anycast 直连 IP 段 (免受 DNS 缓存影响)
+IP-CIDR,88.82.11.0/24,你的英国节点,no-resolve
+IP-CIDR,148.252.0.0/16,你的英国节点,no-resolve
+
 # 英国全部运营商 (Giffgaff/O2 mnc010, Lebara/Vodafone mnc015, Three mnc020, EE mnc030) -> 英国 UDP 节点
 DOMAIN-SUFFIX,mcc234.pub.3gppnetwork.org
 DOMAIN-SUFFIX,mcc234.3gppnetwork.org
