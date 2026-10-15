@@ -19,8 +19,9 @@ DOMAIN-SUFFIX,mcc234.3gppnetwork.org
 IP-CIDR,88.82.0.0/19,no-resolve
 
 # Cmlink uk
-DOMAIN-SUFFIX,3gppnetwork.org
 DOMAIN-SUFFIX,epdg.epc.mnc033.mcc234.pub.3gppnetwork.org
+DOMAIN-SUFFIX,epdg.epc.geo.mnc033.mcc234.pub.3gppnetwork.org
+DOMAIN-SUFFIX,ims.mnc033.mcc234.3gppnetwork.org
 IP-CIDR,198.0.7.197/32,no-resolve
 
 # VOXI / Vodafone UK (PLMN 23415) VoWiFi 核心网分流
