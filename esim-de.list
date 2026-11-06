@@ -8,4 +8,9 @@ DOMAIN-SUFFIX,3gppnetwork.org
 DOMAIN-SUFFIX,mcc262.pub.3gppnetwork.org
 DOMAIN-SUFFIX,mcc262.3gppnetwork.org
 
+
+# yesss!/A1 · PLMN 23212 · ePDG 出口建议（请核实 AT UDP 节点）
+DOMAIN-SUFFIX,epdg.epc.mnc012.mcc232.pub.3gppnetwork.org
+DOMAIN-SUFFIX,epdg.epc.geo.mnc012.mcc232.pub.3gppnetwork.org
+
 IP-CIDR,139.7.117.170/32,no-resolve
