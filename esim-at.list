@@ -1,5 +1,5 @@
 # yesss!/A1 Austria (PLMN 23212) VoWiFi -> 必须走奥地利(AT) UDP 节点
-DOMAIN-SUFFIX,mcc232.pub.3gppnetwork.org,你的奥地利UDP节点或策略组名
-DOMAIN-SUFFIX,mcc232.3gppnetwork.org,你的奥地利UDP节点或策略组名
-IP-CIDR,188.21.252.238/32,你的奥地利UDP节点或策略组名,no-resolve
-IP-CIDR,188.21.252.239/32,你的奥地利UDP节点或策略组名,no-resolve
+DOMAIN-SUFFIX,mcc232.pub.3gppnetwork.org
+DOMAIN-SUFFIX,mcc232.3gppnetwork.org
+IP-CIDR,188.21.252.238/32,no-resolve
+IP-CIDR,188.21.252.239/32,no-resolve
