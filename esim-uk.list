@@ -29,6 +29,12 @@ IP-CIDR,198.0.7.197/32,no-resolve
 DOMAIN-SUFFIX,epdg.epc.mnc015.mcc234.pub.3gppnetwork.org
 DOMAIN-SUFFIX,epdg.epc.geo.mnc015.mcc234.pub.3gppnetwork.org
 
+
+
+# yesss!/A1 · PLMN 23212 · ePDG 出口建议（请核实 AT UDP 节点）
+DOMAIN-SUFFIX,epdg.epc.mnc012.mcc232.pub.3gppnetwork.org
+DOMAIN-SUFFIX,epdg.epc.geo.mnc012.mcc232.pub.3gppnetwork.org
+
 # 2. Vodafone 官方域名与 CNAME 实际目标 (极关键)
 DOMAIN-SUFFIX,epdg.vodafone.co.uk
 DOMAIN-SUFFIX,vodafone.co.uk
