@@ -1,5 +1,6 @@
+# NAME: Gmail
 # > Google 邮箱 (Gmail / Google Mail)
-# 涵盖 Web 端、邮件客户端协议 (IMAP/SMTP/POP3)、附件下载及官方客户端
+# 涵盖 Web 端、邮件客户端协议 (IMAP/SMTP/POP3)、官方客户端同步接口、附件下载及账号鉴权
 
 # Web 端核心
 DOMAIN,mail.google.com
@@ -15,12 +16,19 @@ DOMAIN,pop.gmail.com
 DOMAIN,gmail-smtp-in.l.google.com
 DOMAIN,smtp-relay.gmail.com
 
+# 官方客户端与 API 同步接口
+DOMAIN,gmail.googleapis.com
+DOMAIN,scone-pa.clients6.google.com
+DOMAIN,peoplestack-pa.clients6.google.com
+DOMAIN,addons-pa.clients6.google.com
+
 # 附件、联系人及静态资源
 DOMAIN,mail-attachment.googleusercontent.com
 DOMAIN,contacts.google.com
 
-# Google 账号登录/鉴权（客户端添加 Google 账户时使用）
+# Google 账号登录与鉴权
 DOMAIN,accounts.google.com
+DOMAIN,myaccount.google.com
 
 # 官方客户端应用 User-Agent
 USER-AGENT,Gmail*
