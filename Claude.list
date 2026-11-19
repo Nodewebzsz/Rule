@@ -1,9 +1,32 @@
+# NAME: Claude
 # > Claude (Anthropic)
+# 涵盖核心域名、MCP/App 资源、风控与支付校验、遥测接口及客户端标识
+
+# 核心服务域名
 DOMAIN-SUFFIX,anthropic.com
-DOMAIN-SUFFIX,clau.de
 DOMAIN-SUFFIX,claude.ai
 DOMAIN-SUFFIX,claude.com
+DOMAIN-SUFFIX,claude.app
+DOMAIN-SUFFIX,clau.de
 DOMAIN-SUFFIX,claudeusercontent.com
+DOMAIN-SUFFIX,claudemcpcontent.com
+
+# 风控校验、支付与消息推送（防封号关键配套）
+DOMAIN-SUFFIX,siftscience.com
+DOMAIN,r.stripe.com
+DOMAIN,fcmtoken.googleapis.com
+
+# 客服组件与前端统计遥测
+DOMAIN,api-iam.intercom.io
+DOMAIN,nexus-websocket-a.intercom.io
+DOMAIN,us5.datadoghq.com
+DOMAIN,http-intake.logs.us5.datadoghq.com
+DOMAIN,us.sentry.io
 DOMAIN,cdn.usefathom.com
+
+# 客户端 User-Agent
 USER-AGENT,Claude*
 USER-AGENT,anthropic*
+
+# Claude 关联 IP 段
+IP-CIDR,34.8.0.0/16,no-resolve
