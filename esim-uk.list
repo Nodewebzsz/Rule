@@ -44,8 +44,5 @@ DOMAIN-SUFFIX,ims.mnc015.mcc234.3gppnetwork.org
 IP-CIDR,88.82.11.0/24,no-resolve
 IP-CIDR,148.252.0.0/16,no-resolve
 
-# 英国全部运营商 (Giffgaff/O2 mnc010, Lebara/Vodafone mnc015, Three mnc020, EE mnc030) -> 英国 UDP 节点
-DOMAIN-SUFFIX,mcc234.pub.3gppnetwork.org
-DOMAIN-SUFFIX,mcc234.3gppnetwork.org
 
 
